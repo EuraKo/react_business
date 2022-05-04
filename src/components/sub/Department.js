@@ -2,6 +2,7 @@ import Layout from '../common/Layout';
 import { useEffect, useState } from 'react';
 
 function Department() {
+	// [상태값, 상태값을 변경하는 함수] = useState(상태초기값)
 	let [num, setNum] = useState(0);
 	// 현재 useEffect의 의존성 배열은 비어있으므로
 	useEffect(() => {
