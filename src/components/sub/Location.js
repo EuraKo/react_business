@@ -1,10 +1,10 @@
-import React from 'react';
+import Layout from '../common/Layout';
 
 function Location() {
 	return (
-		<div>
-			<h1>Location</h1>
-		</div>
+		<Layout name='Location'>
+			<p>Location 컨텐츠가 들어올자리</p>
+		</Layout>
 	);
 }
 

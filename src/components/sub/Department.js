@@ -1,13 +1,10 @@
-import React from 'react';
+import Layout from '../common/Layout';
 
 function Department() {
 	return (
-		<section className='content'>
-			<figure></figure>
-			<div className='inner'>
-				<h1>Department</h1>
-			</div>
-		</section>
+		<Layout name='department'>
+			<p>department 컨텐츠가 들어올자리</p>
+		</Layout>
 	);
 }
 
