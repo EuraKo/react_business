@@ -2,9 +2,11 @@ import React from 'react';
 
 function Footer() {
 	return (
-		<div>
-			<h1>Footer</h1>
-		</div>
+		<footer>
+			<div className='inner'>
+				<p>2022 DCODELAB &copy; ALL RIGHTS RESERVED.</p>
+			</div>
+		</footer>
 	);
 }
 
