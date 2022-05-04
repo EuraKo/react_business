@@ -3,7 +3,6 @@ footer {
 	border-top: 1px solid #bbb;
 	.inner {
 		width: 1180px;
-		max-width: 100%;
 		margin: 0 auto;
 		position: relative;
 		padding: 50px;
@@ -12,6 +11,14 @@ footer {
 			color: #999;
 			text-align: center;
 			letter-spacing: 2px;
+		}
+	}
+}
+//tablet
+@media screen and (max-width: $tablet) {
+	footer {
+		.inner {
+			width: 100%;
 		}
 	}
 }
