@@ -1,9 +1,15 @@
 import Layout from '../common/Layout';
+import Popup from '../common/Popup';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function Youtube() {
+	// 값을 할당하는거여서 let을 쓸필요가 없다.
 	const [vids, setVids] = useState([]);
+	const [open, setOpen] = useState(false);
+	///리스트의 순서를 다룰 state추가
+	const [index, setIndex] = useState(0);
+
 	useEffect(() => {
 		const playListId = 'PLlM8MQlXerevUPqRRrMpLJFOQRPtKP67s';
 		const key = 'AIzaSyBmkrTuDWtAo4Y49kWA9tJVe6DvS6usIkA';
@@ -14,21 +20,43 @@ function Youtube() {
 			setVids(json.data.items);
 		});
 	}, []);
+	// 제목 80자넘어갈시 말줄임표붙히기 본문은 250개 날짜 줄이기
 	return (
-		<Layout name='Youtube'>
-			{vids.map((vid, idx) => {
-				return (
-					<article key={idx}>
-						<div className='pic'>
-							<img src={vid.snippet.thumbnails.standard.url} alt='' />
-						</div>
-						<h2>{vid.snippet.title}</h2>
-						<p>{vid.snippet.description}</p>
-						<span>{vid.snippet.publishedAt}</span>
-					</article>
-				);
-			})}
-		</Layout>
+		<>
+			<Layout name='Youtube'>
+				{vids.map((vid, idx) => {
+					let tit = vid.snippet.title;
+					let desc = vid.snippet.description;
+					let date = vid.snippet.publishedAt;
+
+					return (
+						// article 클릭 시 클릭한 요소의 순서값인 idx값을 setIndex를 이용하여
+						<article
+							key={idx}
+							//article클릭시 클릭한 요소의 순서값인 idx값을 setIndex를 이용하여 index state값 변경
+							onClick={() => {
+								setOpen(true);
+								setIndex(idx);
+							}}>
+							<div className='pic'>
+								<img src={vid.snippet.thumbnails.standard.url} alt='' />
+							</div>
+							<h2>{tit.length > 50 ? tit.substr(0, 50) + '...' : tit}</h2>
+							<p>{desc.length > 150 ? desc.substr(0, 150) + '...' : desc}</p>
+							<span>{date.split('T')[0]}</span>
+						</article>
+					);
+				})}
+			</Layout>
+			{open ? (
+				<Popup setOpen={setOpen}>
+					<iframe
+						//팝업이 호출될때 변경된 index순번의 vids state값의 데이터값이 팝업영상으로 출력
+						src={`https://www.youtube.com/embed/${vids[index].snippet.resourceId.videoId}`}
+						frameBorder='0'></iframe>
+				</Popup>
+			) : null}
+		</>
 	);
 }
 
