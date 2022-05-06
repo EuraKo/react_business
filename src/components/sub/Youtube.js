@@ -20,6 +20,10 @@ function Youtube() {
 			setVids(json.data.items);
 		});
 	}, []);
+	const handleClick = (index) => {
+		setOpen(true);
+		setIndex(index);
+	};
 	// 제목 80자넘어갈시 말줄임표붙히기 본문은 250개 날짜 줄이기
 	return (
 		<>
@@ -34,10 +38,7 @@ function Youtube() {
 						<article
 							key={idx}
 							//article클릭시 클릭한 요소의 순서값인 idx값을 setIndex를 이용하여 index state값 변경
-							onClick={() => {
-								setOpen(true);
-								setIndex(idx);
-							}}>
+							onClick={() => handleClick(idx)}>
 							<div className='pic'>
 								<img src={vid.snippet.thumbnails.standard.url} alt='' />
 							</div>
@@ -48,6 +49,7 @@ function Youtube() {
 					);
 				})}
 			</Layout>
+			{/* 팝업 열리고 닫히고 */}
 			{open ? (
 				<Popup setOpen={setOpen}>
 					<iframe
