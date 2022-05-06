@@ -1,5 +1,8 @@
 import Layout from '../common/Layout';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const path = process.env.PUBLIC_URL;
 
 function Department() {
 	// [상태값, 상태값을 변경하는 함수] = useState(상태초기값)
@@ -8,6 +11,11 @@ function Department() {
 	useEffect(() => {
 		// 컴포넌트가 생성시 한번만 실행
 		console.log('컴포넌트 생성');
+		axios.get(`${path}/DB/member.json`).then((json) => {
+			const members = json.data.members;
+
+			console.log(members);
+		});
 
 		// 컴포넌트 소멸시 한번만 실행
 		return () => {
