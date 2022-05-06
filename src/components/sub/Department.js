@@ -18,6 +18,7 @@ function Department() {
 		<Layout name={'Department'}>
 			<button
 				onClick={() => {
+					// 완전 복사를 위해 ...을 달아준다
 					const newMembers = [...members];
 					newMembers[0].name = 'Emma';
 					setMembers(newMembers);
@@ -30,7 +31,7 @@ function Department() {
 					return (
 						<li key={idx}>
 							<div className='inner'>
-								<img src={`${path}/img/${member.pic}`} />
+								<img src={`${path}/img/${member.pic}`} alt='' />
 								<h2>{member.name}</h2>
 								<p>{member.position}</p>
 							</div>
