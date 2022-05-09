@@ -41,7 +41,9 @@ function Join() {
 		) {
 			errs.pwd1 = '비밀번호는 5글자이상 영문,숫자,특수문자를 모두 포함하세요';
 		}
-
+		if (val.pwd1 !== val.pwd2 || !val.pwd2) {
+			errs.pwd2 = '비밀번호 두개를 동일하게 입력하세요';
+		}
 		return errs;
 	};
 	const handleChange = (e) => {
@@ -52,7 +54,10 @@ function Join() {
 		setVal({ ...val, [name]: value });
 		console.log(val);
 	};
-
+	const hadleReset = () => {
+		setVal(initVal);
+		setErr({});
+	};
 	const handelSubmit = (e) => {
 		e.preventDefault();
 		setErr(check(val));
@@ -83,6 +88,7 @@ function Join() {
 										value={val.userid}
 										onChange={handleChange}
 									/>
+									<span className='err'>{err.userid}</span>
 								</td>
 							</tr>
 							{/* pwd1 */}
@@ -99,6 +105,7 @@ function Join() {
 										value={val.pwd1}
 										onChange={handleChange}
 									/>
+									<span className='err'>{err.pwd1}</span>
 								</td>
 							</tr>
 							{/* pwd2 */}
@@ -115,6 +122,7 @@ function Join() {
 										value={val.pwd2}
 										onChange={handleChange}
 									/>
+									<span className='err'>{err.pwd2}</span>
 								</td>
 							</tr>
 							{/* email */}
@@ -131,12 +139,13 @@ function Join() {
 										value={val.email}
 										onChange={handleChange}
 									/>
+									<span className='err'>{err.email}</span>
 								</td>
 							</tr>
 							{/* button set */}
 							<tr>
 								<th colSpan='2'>
-									<input type='reset' value='cancle' />
+									<input type='reset' value='cancle' onClick={hadleReset} />
 									<input type='submit' value='send' />
 								</th>
 							</tr>
