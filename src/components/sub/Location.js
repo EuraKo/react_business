@@ -85,6 +85,11 @@ function Location(props) {
 		// 브라우저가 리사이즈시 mapInfo호출
 		// css에서 트랜지션을 all로걸면 마크가 먼저 반응후 트랜지션이 걸려 빠르게하면 가운데가 틀어지므로 트랜지션을 세부적으로 줘서 넓이값은 뺴줘야함
 		window.addEventListener('resize', mapInit);
+
+		return () => {
+			// 해당 컴포넌트가 사라지면 전역이벤트인 window제거
+			window.removeEventListener('resize', mapInit);
+		};
 	}, [index]);
 
 	// setTraffic()
