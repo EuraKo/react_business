@@ -1,5 +1,6 @@
 import Layout from '../common/Layout';
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 // ======= 예시 ===========
 //  es6에서 새로나온 문법 키값을 변수로 치환하고싶을때
@@ -12,6 +13,7 @@ console.log(student);
 // ========= 예시 끝 =========
 
 function Join() {
+	const history = useHistory();
 	const initVal = {
 		userid: '',
 		email: '',
@@ -24,7 +26,7 @@ function Join() {
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
-	const [success, setSuccess] = useState(false);
+	// const [success, setSuccess] = useState(false);
 	const [isSubmit, setIsSubmit] = useState(false);
 
 	const check = (val) => {
@@ -104,15 +106,17 @@ function Join() {
 	useEffect(() => {
 		console.log(err);
 		const len = Object.keys(err).length; // 에러 객체의 키값만 담는다.
-		console.log(len);
+		// len은 에러의 객체가 0개일때 < 이것만하면 처음 인입시 0개라 작동하므로
+		// isSUbmit을 이용하여 버튼클릭후 나오게 해준다
+		console.log(initVal);
 		if (len === 0 && isSubmit === true) {
-			setSuccess(true);
+			// setSuccess(true);
+			history.push('/');
 		}
 	}, [err]);
 
 	return (
 		<Layout name='Join'>
-			{success ? <h2>회원가입을 축하합니다</h2> : null}
 			<form onSubmit={handelSubmit}>
 				<fieldset>
 					<legend>회원가입 폼양식</legend>
