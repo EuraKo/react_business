@@ -21,6 +21,15 @@ function Location(props) {
 		const map_instance = new kakao.maps.Map(container.current, options);
 		// 캄포넌트가 처음 mount시 생성된 인스턴스 map값을 해당 컴포넌트에서 자유롭게 쓰면서 상태관리 하기 위해 map state로 옮겨담음
 		setMap(map_instance);
+
+		const markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+		// 마커를 생성합니다
+		const marker = new kakao.maps.Marker({
+			position: markerPosition,
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map_instance);
 	}, []);
 
 	useEffect(() => {
