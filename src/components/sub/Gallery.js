@@ -59,6 +59,14 @@ function Gallery() {
 					/>
 				</Popup>
 			) : null}
+			{/* {open && (
+				<Popup setOpen={setOpen}>
+					<img
+						src={`https://live.staticflickr.com/${pics[index].server}/${pics[index].id}_${pics[index].secret}_b.jpg`}
+						alt=''
+					/>
+				</Popup>
+			)} */}
 		</>
 	);
 }

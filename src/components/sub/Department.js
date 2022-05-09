@@ -15,7 +15,7 @@ function Department() {
 	}, []);
 
 	return (
-		<Layout name={'Department'}>
+		<Layout name={'Department'} bg={`${path}/img/man1.jpg`}>
 			<button
 				onClick={() => {
 					// 완전 복사를 위해 ...을 달아준다
