@@ -12,21 +12,21 @@ function Location(props) {
 	const info = [
 		{
 			title: '삼성동 코엑스',
-			latlng: new kakao.maps.LatLng(37.513876, 127.058384),
+			latlng: new kakao.maps.LatLng(37.514084597899085, 127.05956418154705),
 			imgSrc: `${path}/img/marker1.png`,
 			imgSize: new kakao.maps.Size(233, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
 		{
 			title: '광화문 정문',
-			latlng: new kakao.maps.LatLng(33.450701, 126.570667),
+			latlng: new kakao.maps.LatLng(37.574012, 126.976789),
 			imgSrc: `${path}/img/marker2.png`,
 			imgSize: new kakao.maps.Size(233, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
 		{
 			title: '남산타워',
-			latlng: new kakao.maps.LatLng(33.450701, 126.570667),
+			latlng: new kakao.maps.LatLng(37.5511694, 126.9882266),
 			imgSrc: `${path}/img/marker3.png`,
 			imgSize: new kakao.maps.Size(233, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
@@ -35,12 +35,14 @@ function Location(props) {
 
 	// useEffect안의 map의 변수를 onClick에서 불러와서 쓰기위해 state로 저장한다
 	const [map, setMap] = useState(null);
-	const [mapInfo, setMapInfo] = useState(info);
+	const [mapInfo] = useState(info);
 	const [traffic, setTraffic] = useState(false);
+	const [index, setIndex] = useState(0);
 
+	// setIndex
 	useEffect(() => {
 		const options = {
-			center: mapInfo[0].latlng, // 지도의 중심좌표
+			center: mapInfo[index].latlng, // 지도의 중심좌표
 			level: 3, // 지도의 확대 레벨
 		};
 		console.log(container);
@@ -50,10 +52,10 @@ function Location(props) {
 		// 캄포넌트가 처음 mount시 생성된 인스턴스 map값을 해당 컴포넌트에서 자유롭게 쓰면서 상태관리 하기 위해 map state로 옮겨담음
 		setMap(map_instance);
 
-		const markerPosition = mapInfo[0].latlng;
-		const imageSrc = mapInfo[0].imgSrc; // 마커이미지의 주소입니다
-		const imageSize = mapInfo[0].imgSize; // 마커이미지의 크기입니다
-		const imageOption = mapInfo[0].imgPos;
+		const markerPosition = mapInfo[index].latlng;
+		const imageSrc = mapInfo[index].imgSrc; // 마커이미지의 주소입니다
+		const imageSize = mapInfo[index].imgSize; // 마커이미지의 크기입니다
+		const imageOption = mapInfo[index].imgPos;
 		// 마커를 생성합니다
 
 		var markerImage = new kakao.maps.MarkerImage(
@@ -68,7 +70,7 @@ function Location(props) {
 
 		// 마커가 지도 위에 표시되도록 설정합니다
 		marker.setMap(map_instance);
-	}, []);
+	}, [index]);
 
 	// setTraffic()
 	useEffect(() => {
@@ -105,6 +107,11 @@ function Location(props) {
 				}}>
 				Traffix Off
 			</button>
+			<ul>
+				<li onClick={() => setIndex(0)}>삼성동 코엑스</li>
+				<li onClick={() => setIndex(1)}>광화문 정문</li>
+				<li onClick={() => setIndex(2)}>남산 타워</li>
+			</ul>
 		</Layout>
 	);
 }
