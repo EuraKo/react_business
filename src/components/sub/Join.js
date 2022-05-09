@@ -17,6 +17,8 @@ function Join() {
 		email: '',
 		pwd1: '',
 		pwd2: '',
+		comments: '',
+		gender: null,
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
@@ -44,6 +46,12 @@ function Join() {
 		if (val.pwd1 !== val.pwd2 || !val.pwd2) {
 			errs.pwd2 = '비밀번호 두개를 동일하게 입력하세요';
 		}
+		if (!val.gender) {
+			errs.gender = '성별을 선택하세요';
+		}
+		if (val.comments.length < 10) {
+			errs.comments = '이메일을 10글자이상 @를 포함하여 입력하세요';
+		}
 		return errs;
 	};
 	const handleChange = (e) => {
@@ -53,6 +61,11 @@ function Join() {
 		// 그냥 name을 쓰면 키값은 못가져오므로 []로 가져온다. 상단에 예시 있음
 		setVal({ ...val, [name]: value });
 		console.log(val);
+	};
+	const hadleRadio = (e) => {
+		const { name } = e.target;
+		const isCheck = e.target.checked;
+		setVal({ ...val, [name]: isCheck });
 	};
 	const hadleReset = () => {
 		setVal(initVal);
@@ -140,6 +153,43 @@ function Join() {
 										onChange={handleChange}
 									/>
 									<span className='err'>{err.email}</span>
+								</td>
+							</tr>
+							{/* gender */}
+							<tr>
+								<th scope='row'>gender</th>
+								<td>
+									<label htmlFor='male'>male</label>
+									<input
+										type='radio'
+										name='gender'
+										id='male'
+										onChange={hadleRadio}
+									/>
+									<label htmlFor='female'>female</label>
+									<input
+										type='radio'
+										name='gender'
+										id='female'
+										onChange={hadleRadio}
+									/>
+									<span className='err'>{err.gender}</span>
+								</td>
+							</tr>
+							{/* comments */}
+							<tr>
+								<th scope='row'>
+									<label htmlFor='commnets'>comments</label>
+								</th>
+								<td>
+									<textarea
+										name='comments'
+										id='comments'
+										cols='30'
+										rows='10'
+										value={val.comments}
+										onChange={handleChange}></textarea>
+									<span className='err'>{err.comments}</span>
 								</td>
 							</tr>
 							{/* button set */}
