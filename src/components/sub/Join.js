@@ -20,9 +20,12 @@ function Join() {
 		comments: '',
 		gender: null,
 		interest: null,
+		edu: '',
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
+	const [success, setSuccess] = useState(false);
+	const [isSubmit, setIsSubmit] = useState(false);
 
 	const check = (val) => {
 		const errs = {};
@@ -56,6 +59,9 @@ function Join() {
 		if (val.comments.length < 10) {
 			errs.comments = '이메일을 10글자이상 @를 포함하여 입력하세요';
 		}
+		if (val.edu === '') {
+			errs.edu = '학력을 선택하세요';
+		}
 		return errs;
 	};
 	const handleChange = (e) => {
@@ -80,6 +86,12 @@ function Join() {
 		});
 		setVal({ ...val, [name]: isCheck });
 	};
+	const handleSelect = (e) => {
+		const { name } = e.target;
+		const isSelected = e.target.options[e.target.selectedIndex].value;
+		console.log(isSelected);
+		setVal({ ...val, [name]: isSelected });
+	};
 	const hadleReset = () => {
 		setVal(initVal);
 		setErr({});
@@ -91,9 +103,16 @@ function Join() {
 
 	useEffect(() => {
 		console.log(err);
+		const len = Object.keys(err).length; // 에러 객체의 키값만 담는다.
+		console.log(len);
+		if (len === 0 && isSubmit === true) {
+			setSuccess(true);
+		}
 	}, [err]);
+
 	return (
 		<Layout name='Join'>
+			{success ? <h2>회원가입을 축하합니다</h2> : null}
 			<form onSubmit={handelSubmit}>
 				<fieldset>
 					<legend>회원가입 폼양식</legend>
@@ -217,6 +236,22 @@ function Join() {
 									<span className='err'>{err.interest}</span>
 								</td>
 							</tr>
+							{/* edu */}
+							<tr>
+								<th>
+									<label htmlFor='edu'>education</label>
+								</th>
+								<td>
+									<select name='edu' id='edu' onChange={handleSelect}>
+										<option value=''>학력을 선택하세요</option>
+										<option value='elementary-school'>초등학교 졸업</option>
+										<option value='middle-school'>중학교 졸업</option>
+										<option value='high-school'>고등학교 졸업</option>
+										<option value='college'>대학교 졸업</option>
+									</select>
+									<span className='err'>{err.edu}</span>
+								</td>
+							</tr>
 							{/* comments */}
 							<tr>
 								<th scope='row'>
@@ -237,7 +272,11 @@ function Join() {
 							<tr>
 								<th colSpan='2'>
 									<input type='reset' value='cancle' onClick={hadleReset} />
-									<input type='submit' value='send' />
+									<input
+										type='submit'
+										value='send'
+										onClick={() => setIsSubmit(true)}
+									/>
 								</th>
 							</tr>
 						</tbody>
