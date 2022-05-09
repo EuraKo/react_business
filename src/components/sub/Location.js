@@ -42,6 +42,8 @@ function Location(props) {
 
 	// setIndex
 	useEffect(() => {
+		// 컴포넌트가 재랜더링 될때마다 기존 맵안쪽에 내용을 비워줘야함 안그럼 휠할때 중첩되서 지저분해보임
+		container.current.innerHTML = '';
 		const options = {
 			center: mapInfo[index].latlng, // 지도의 중심좌표
 			level: 3, // 지도의 확대 레벨
@@ -77,6 +79,17 @@ function Location(props) {
 		for (const btn of branch_li) btn.classList.remove('on');
 		branch_li[index].classList.add('on');
 
+		// 지도에 컨트롤러 추가
+		const mapTypeControl = new kakao.maps.MapTypeControl();
+		map_instance.addControl(
+			mapTypeControl,
+			kakao.maps.ControlPosition.TOPRIGHT
+		);
+
+		// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+		const zoomControl = new kakao.maps.ZoomControl();
+		map_instance.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
 		const mapInit = () => {
 			console.log('마커 중앙위치');
 			map_instance.setCenter(mapInfo[index].latlng);
@@ -84,6 +97,7 @@ function Location(props) {
 
 		// 브라우저가 리사이즈시 mapInfo호출
 		// css에서 트랜지션을 all로걸면 마크가 먼저 반응후 트랜지션이 걸려 빠르게하면 가운데가 틀어지므로 트랜지션을 세부적으로 줘서 넓이값은 뺴줘야함
+		// 전역객체는 모든 페이지에 다 적용되므로 사용에 주의
 		window.addEventListener('resize', mapInit);
 
 		return () => {
