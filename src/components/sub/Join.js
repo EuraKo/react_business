@@ -15,18 +15,33 @@ function Join() {
 	const initVal = {
 		userid: '',
 		email: '',
+		pwd1: '',
+		pwd2: '',
 	};
 	const [val, setVal] = useState(initVal);
 	const [err, setErr] = useState({});
 
 	const check = (val) => {
 		const errs = {};
+		const eng = /[a-bA-Z]/;
+		const num = /[0-9]/;
+		const spc = /[!@#$%^&*()_+]/;
+
 		if (val.userid.length < 5) {
 			errs.userid = '아이디를 5글자이상 입력하새요';
 		}
 		if (val.email.length < 3 || !/@/.test(val.email)) {
 			errs.email = '이메일을 3글자이상 @를 포함하여 입력하세요';
 		}
+		if (
+			val.pwd1.length < 5 ||
+			!eng.test(val.pwd1) ||
+			!num.test(val.pwd1) ||
+			!spc.test(val.pwd1)
+		) {
+			errs.pwd1 = '비밀번호는 5글자이상 영문,숫자,특수문자를 모두 포함하세요';
+		}
+
 		return errs;
 	};
 	const handleChange = (e) => {
@@ -66,6 +81,38 @@ function Join() {
 										name='userid'
 										placeholder='아이디를 입력하세요.'
 										value={val.userid}
+										onChange={handleChange}
+									/>
+								</td>
+							</tr>
+							{/* pwd1 */}
+							<tr>
+								<th scope='row'>
+									<label htmlFor='pwd1'>password</label>
+								</th>
+								<td>
+									<input
+										type='password'
+										name='pwd1'
+										id='pwd1'
+										placeholder='비밀번호를 입력하세요'
+										value={val.pwd1}
+										onChange={handleChange}
+									/>
+								</td>
+							</tr>
+							{/* pwd2 */}
+							<tr>
+								<th scope='row'>
+									<label htmlFor='pwd2'>re password</label>
+								</th>
+								<td>
+									<input
+										type='password'
+										name='pwd2'
+										id='pwd2'
+										placeholder='비밀번호를 재입력하세요'
+										value={val.pwd2}
 										onChange={handleChange}
 									/>
 								</td>
