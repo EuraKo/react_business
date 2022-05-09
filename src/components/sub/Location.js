@@ -8,6 +8,7 @@ function Location(props) {
 	const { kakao } = window;
 	console.log(window);
 	const container = useRef(null);
+	const branch = useRef(null);
 
 	const info = [
 		{
@@ -70,6 +71,11 @@ function Location(props) {
 
 		// 마커가 지도 위에 표시되도록 설정합니다
 		marker.setMap(map_instance);
+
+		// 버튼 활성화
+		const branch_li = branch.current.querySelectorAll('li');
+		for (const btn of branch_li) btn.classList.remove('on');
+		branch_li[index].classList.add('on');
 	}, [index]);
 
 	// setTraffic()
@@ -107,10 +113,14 @@ function Location(props) {
 				}}>
 				Traffix Off
 			</button>
-			<ul>
-				<li onClick={() => setIndex(0)}>삼성동 코엑스</li>
-				<li onClick={() => setIndex(1)}>광화문 정문</li>
-				<li onClick={() => setIndex(2)}>남산 타워</li>
+			<ul className='branch' ref={branch}>
+				{mapInfo.map((item, idx) => {
+					return (
+						<li key={idx} onClick={() => setIndex(idx)}>
+							{item.title}
+						</li>
+					);
+				})}
 			</ul>
 		</Layout>
 	);
