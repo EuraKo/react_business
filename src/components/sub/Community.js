@@ -14,12 +14,17 @@ function Community() {
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
 
-	const dummyPosts = [
-		{ title: 'Hello2', content: 'Here comes description in detail.' },
-		{ title: 'Hello1', content: 'Here comes description in detail.' },
-	];
-
-	const [posts, setPosts] = useState(dummyPosts);
+	// const dummyPosts = [
+	// 	{ title: 'Hello2', content: 'Here comes description in detail.' },
+	// 	{ title: 'Hello1', content: 'Here comes description in detail.' },
+	// ];
+	const getLocalData = () => {
+		const data = localStorage.getItem('post');
+		// 문자열로 들어가있는 데이터를 json형태로 바꿔준다음 반환한다.
+		return JSON.parse(data);
+	};
+	// const [posts, setPosts] = useState(dummyPosts);
+	const [posts, setPosts] = useState(getLocalData);
 	// 중복수정을 막을 state
 	const [allowed, setAllowed] = useState(true);
 
@@ -45,7 +50,13 @@ function Community() {
 	const deletePost = (index) => {
 		// filter는 기존 배열을 반복을 돌면서 특정 조건에 부합되는 값만 리턴
 		// _는 값이 안쓰임을 나타내는 개발자들간의 약속
-		setPosts(posts.filter((_, idx) => idx !== index));
+		// setPosts(posts.filter((_, idx) => idx !== index));
+		setPosts(
+			posts.filter((_, idx) => {
+				// 리스트를 다시 만드는 것이므로 일치하지 않는 것을 다시 배열로 만드는것
+				return idx !== index;
+			})
+		);
 	};
 
 	// 수정버튼 클릭시 실행되는 함수
@@ -95,7 +106,9 @@ function Community() {
 
 	//posts 값이 변경될때마다 콘솔로 출력
 	useEffect(() => {
-		console.log(posts);
+		// post값이 변경될 때마다 해당 state를 문자열로 변환해서 로컬 저장소에 저장
+		// storage는 문자열로 바꿔야 들어가서 JSON.stringify를 줘야한다.
+		localStorage.setItem('post', JSON.stringify(posts));
 	}, [posts]);
 
 	return (
