@@ -20,6 +20,8 @@ function Community() {
 	];
 
 	const [posts, setPosts] = useState(dummyPosts);
+	// 중복수정을 막을 state
+	const [allowed, setAllowed] = useState(true);
 
 	// 입력버튼클릭시
 	const createPost = () => {
@@ -49,6 +51,8 @@ function Community() {
 	// 수정버튼 클릭시 실행되는 함수
 	// 클릭한 버튼의 포스트 순번을 파라미터로 전달
 	const enableUpdate = (index) => {
+		// 처음 수정모드 진입시 수정버튼 클릭 방지
+		setAllowed(false);
 		setPosts(
 			//기존 배열값을 반복돌면서 인수로 전달된 순번과 현재 반복도는 순번이 같은 포스트만 찾아서
 			//enableUpdate:true라는 값을 추가한뒤 setPosts로 기존 state값 변경
@@ -61,6 +65,8 @@ function Community() {
 
 	// 다시 출력모드로 변경하는 함수
 	const disableUpdate = (index) => {
+		// 출략모드 진입시 수정버튼 클릭 가능
+		setAllowed(true);
 		setPosts(
 			posts.map((post, idx) => {
 				if (idx === index) post.enableUpdate = false;
@@ -70,6 +76,11 @@ function Community() {
 	};
 	// post 수정 함수
 	const updatePost = (index) => {
+		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) {
+			alert('수정할 내용과 본문을 입력하세요');
+		}
+		// 수정완료시 수정버튼 클릭 가능
+		setAllowed(true);
 		setPosts(
 			posts.map((post, idx) => {
 				if (idx === index) {
@@ -133,7 +144,13 @@ function Community() {
 
 									<div className='btns'>
 										{/* 수정 버튼 클릭시 enableUpdate호출하면서 인수로 수정할 post순번 전달 */}
-										<button onClick={() => enableUpdate(idx)}>edit</button>
+										<button
+											onClick={() => {
+												// allowed값이 true일때만 수정모드 진입
+												if (allowed) enableUpdate(idx);
+											}}>
+											edit
+										</button>
 										<button onClick={() => deletePost(idx)}>delete</button>
 									</div>
 								</>
