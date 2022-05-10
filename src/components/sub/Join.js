@@ -111,6 +111,7 @@ function Join() {
 		console.log(initVal);
 		if (len === 0 && isSubmit === true) {
 			// setSuccess(true);
+			// 모든 인증이 성공하면 메인페이지로 강제 이동
 			history.push('/');
 		}
 	}, [err]);
