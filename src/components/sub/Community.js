@@ -14,10 +14,7 @@ function Community() {
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
 
-	// const dummyPosts = [
-	// 	{ title: 'Hello2', content: 'Here comes description in detail.' },
-	// 	{ title: 'Hello1', content: 'Here comes description in detail.' },
-	// ];
+	// 로컬 저장소에서 데이터를 받아와서 json형태로 변환
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
 		// 문자열로 들어가있는 데이터를 json형태로 바꿔준다음 반환한다.
