@@ -11,6 +11,8 @@ d - delete 데이터 삭제
 function Community() {
 	const input = useRef(null);
 	const textarea = useRef(null);
+	const editInput = useRef(null);
+	const editTextarea = useRef(null);
 
 	const dummyPosts = [
 		{ title: 'Hello2', content: 'Here comes description in detail.' },
@@ -62,6 +64,19 @@ function Community() {
 			})
 		);
 	};
+	// post 수정 함수
+	const updatePost = (index) => {
+		setPosts(
+			posts.map((post, idx) => {
+				if (idx === index) {
+					post.title = editInput.current.value;
+					post.content = editTextarea.current.value;
+					post.enableUpdate = false;
+				}
+				return post;
+			})
+		);
+	};
 
 	//posts 값이 변경될때마다 콘솔로 출력
 	useEffect(() => {
@@ -89,16 +104,21 @@ function Community() {
 							{post.enableUpdate ? (
 								// 수정모드
 								<>
-									<input type='text' defaultValue={post.title} />
+									<input
+										type='text'
+										defaultValue={post.title}
+										ref={editInput}
+									/>
 									<br />
 									<textarea
 										cols='30'
 										rows='10'
-										defaultValue={post.content}></textarea>
+										defaultValue={post.content}
+										ref={editTextarea}></textarea>
 
 									<div className='btns'>
 										<button onClick={() => disableUpdate(idx)}>cancle</button>
-										<button>save</button>
+										<button onClick={() => updatePost(idx)}>save</button>
 									</div>
 								</>
 							) : (
