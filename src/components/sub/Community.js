@@ -23,6 +23,10 @@ function Community() {
 
 	// 입력버튼클릭시
 	const createPost = () => {
+		if (!input.current.value.trim() || !textarea.current.value.trim()) {
+			alert('제목과 본문을 입력하세요');
+			return;
+		}
 		setPosts([
 			{ title: input.current.value, content: textarea.current.value },
 			...posts,
