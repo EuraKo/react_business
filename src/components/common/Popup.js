@@ -22,9 +22,9 @@ const Popup = forwardRef((props, ref) => {
 	return (
 		<>
 			{/* open 일 떄만 동작 삼항연산자처럼 null을 안써도된다. */}
-			{open && (
-				// AnimatePresence : 해당 컴포넌트가 사라진떄도 모션처리 가능하게 설정
-				<AnimatePresence>
+			{/* AnimatePresence : 해당 컴포넌트가 사라진떄도 모션처리 가능하게 설정 */}
+			<AnimatePresence>
+				{open && (
 					<motion.aside
 						className='pop'
 						initial={{ opacity: 0, scale: 0 }} // 초기상태
@@ -46,8 +46,8 @@ const Popup = forwardRef((props, ref) => {
 							close
 						</span> */}
 					</motion.aside>
-				</AnimatePresence>
-			)}
+				)}
+			</AnimatePresence>
 		</>
 	);
 });
