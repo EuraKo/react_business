@@ -2,10 +2,12 @@ import Layout from '../common/Layout';
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Masonry from 'react-masonry-component';
+import { faCommentDollar } from '@fortawesome/free-solid-svg-icons';
 
 function Flickr() {
 	const path = process.env.PUBLIC_URL;
 	const frame = useRef(null);
+	const input = useRef(null);
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [enableClick, setEnableClick] = useState(true);
@@ -33,6 +35,10 @@ function Flickr() {
 		}
 		// 1. async await를 사용해서 데이터를 먼저불러오도록 처리
 		await axios.get(url).then((json) => {
+			if (json.data.photos.photo.length === 0) {
+				alert('해당 검색어에 이미지가 없습니다.');
+				return;
+			}
 			// console.log(json.data.photos.photo);
 			setItems(json.data.photos.photo);
 		});
@@ -44,7 +50,25 @@ function Flickr() {
 			setEnableClick(true);
 		}, 1000);
 	};
+	const showSearch = (e) => {
+		const result = input.current.value.trim();
 
+		// 입력된 결과값이 없으면 얼럿창
+		if (!result) return alert('입력하세요');
+		input.current.value = '';
+
+		if (enableClick) {
+			setEnableClick(false);
+			setLoading(true);
+			frame.current.classList.remove('on');
+
+			getFlickr({
+				type: 'search',
+				count: 50,
+				tags: result,
+			});
+		}
+	};
 	useEffect(() => {
 		getFlickr({
 			type: 'interest',
@@ -85,13 +109,28 @@ function Flickr() {
 						getFlickr({
 							type: 'search',
 							count: 50,
-							tags: 'building',
+							tags: 'glass building',
 						});
 					}
 				}}>
 				search gallery
 			</button>
+			<input
+				type='text'
+				ref={input}
+				onKeyUp={(e) => {
+					// 입력된 키보드값이 엔터가 아니면 함수종료
+					if (e.key === 'Enter') showSearch();
+				}}
+			/>
+			<button
+				onClick={() => {
+					showSearch();
+				}}>
+				search
+			</button>
 			<div className='frame' ref={frame}>
+				<div className='searchBox'></div>
 				<Masonry elementType={'div'} options={masonryOptions}>
 					{items.map((item, idx) => {
 						return (
