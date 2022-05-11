@@ -1,4 +1,5 @@
 import { forwardRef, useState, useImperativeHandle } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // 1. 기존의 컴포넌트 함수를 대입형 함수(화살표함수)로 변경하고
 // 2. 해당 화살표 함수를 forwardRef()로 wrapping
@@ -22,9 +23,21 @@ const Popup = forwardRef((props, ref) => {
 		<>
 			{/* open 일 떄만 동작 삼항연산자처럼 null을 안써도된다. */}
 			{open && (
-				<>
-					<aside className='pop'>
-						<div className='con'>{props.children}</div>
+				// AnimatePresence : 해당 컴포넌트가 사라진떄도 모션처리 가능하게 설정
+				<AnimatePresence>
+					<motion.aside
+						className='pop'
+						initial={{ opacity: 0 }} // 초기상태
+						animate={{ opacity: 1, transition: { duration: 1 } }} // 해당 컴포넌트 생성될때
+						exit={{ opacity: 0 }} // 해당 컴포넌트 소멸될때
+					>
+						<motion.div
+							className='con'
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1, transition: { delay: 1 } }}
+							exit={{ opacity: 0 }}>
+							{props.children}
+						</motion.div>
 						{/* <span
 							className='close'
 							onClick={() => {
@@ -32,8 +45,8 @@ const Popup = forwardRef((props, ref) => {
 							}}>
 							close
 						</span> */}
-					</aside>
-				</>
+					</motion.aside>
+				</AnimatePresence>
 			)}
 		</>
 	);
