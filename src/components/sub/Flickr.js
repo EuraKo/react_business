@@ -22,6 +22,7 @@ function Flickr() {
 		const num = opt.count;
 		const method_interest = 'flickr.interestingness.getList';
 		const method_search = 'flickr.photos.search';
+		const method_user = 'flickr.people.getPhotos';
 		let url = '';
 
 		// 인수로 받은 객체의 타입이 interest먄 interest url반환
@@ -33,6 +34,10 @@ function Flickr() {
 		if (opt.type === 'search') {
 			url = `https://www.flickr.com/services/rest/?method=${method_search}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&tags=${opt.tags}`;
 		}
+		if (opt.type === 'user') {
+			url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&user_id=${opt.user}`;
+		}
+
 		// 1. async await를 사용해서 데이터를 먼저불러오도록 처리
 		await axios.get(url).then((json) => {
 			if (json.data.photos.photo.length === 0) {
@@ -71,9 +76,14 @@ function Flickr() {
 	};
 	useEffect(() => {
 		getFlickr({
-			type: 'interest',
+			type: 'user',
+			user: '195406071@N05',
 			count: 50,
 		});
+		// getFlickr({
+		// 	type: 'interest',
+		// 	count: 50,
+		// });
 		/*  	getFlickr({
 				type: 'search',
 				count: 500,
@@ -143,6 +153,33 @@ function Flickr() {
 										/>
 									</div>
 									<h2>{item.title}</h2>
+									<div className='profile'>
+										<img
+											src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+											alt=''
+											onError={(e) => {
+												e.target.setAttribute(
+													'src',
+													'https://www.flickr.com/images/buddyicon.gif'
+												);
+											}}
+										/>
+										<span
+											onClick={(e) => {
+												if (enableClick) {
+													setEnableClick(false);
+													setLoading(true);
+													frame.current.classList.remove('on');
+													getFlickr({
+														type: 'user',
+														count: 10,
+														user: e.currentTarget.innerText,
+													});
+												}
+											}}>
+											{item.owner}
+										</span>
+									</div>
 								</div>
 							</article>
 						);
