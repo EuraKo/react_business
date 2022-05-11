@@ -1,4 +1,11 @@
 .Flickr {
+	position: relative;
+	.loading {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
 	.frame {
 		transform: translateY(200px);
 		opacity: 0;
@@ -33,6 +40,7 @@
 					font: normal 14px/1.2 'arial';
 					color: #777;
 					margin-bottom: 20px;
+					word-wrap: break-word;
 				}
 			}
 		}
