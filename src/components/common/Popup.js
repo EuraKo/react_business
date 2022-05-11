@@ -27,9 +27,9 @@ const Popup = forwardRef((props, ref) => {
 				<AnimatePresence>
 					<motion.aside
 						className='pop'
-						initial={{ opacity: 0 }} // 초기상태
-						animate={{ opacity: 1, transition: { duration: 1 } }} // 해당 컴포넌트 생성될때
-						exit={{ opacity: 0 }} // 해당 컴포넌트 소멸될때
+						initial={{ opacity: 0, scale: 0 }} // 초기상태
+						animate={{ opacity: 1, transition: { duration: 1 }, scale: 1 }} // 해당 컴포넌트 생성될때
+						exit={{ opacity: 0, scale: 0 }} // 해당 컴포넌트 소멸될때
 					>
 						<motion.div
 							className='con'

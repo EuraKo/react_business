@@ -58,11 +58,7 @@ function Youtube() {
 							//팝업이 호출될때 변경된 index순번의 vids state값의 데이터값이 팝업영상으로 출력
 							src={`https://www.youtube.com/embed/${vids[index].snippet.resourceId.videoId}`}
 							frameBorder='0'></iframe>
-						<span
-							className='close'
-							onClick={() => {
-								pop.current.close();
-							}}>
+						<span className='close' onClick={() => pop.current.close()}>
 							close
 						</span>
 					</>
