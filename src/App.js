@@ -15,6 +15,7 @@ import Gallery from './components/sub/Gallery';
 import Youtube from './components/sub/Youtube';
 import Location from './components/sub/Location';
 import Join from './components/sub/Join';
+import Flickr from './components/sub/Flickr';
 
 import './scss/style.scss';
 
@@ -34,6 +35,7 @@ function App() {
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
 			<Route path='/gallery' component={Gallery} />
+			<Route path='/Flickr' component={Flickr}></Route>
 			<Route path='/youtube' component={Youtube} />
 			<Route path='/location' component={Location} />
 			<Route path='/join' component={Join} />
