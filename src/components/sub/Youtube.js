@@ -1,12 +1,12 @@
 import Layout from '../common/Layout';
 import Popup from '../common/Popup';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 function Youtube() {
+	const pop = useRef(null);
 	// 값을 할당하는거여서 let을 쓸필요가 없다.
 	const [vids, setVids] = useState([]);
-	const [open, setOpen] = useState(false);
 	///리스트의 순서를 다룰 state추가
 	const [index, setIndex] = useState(0);
 
@@ -21,7 +21,7 @@ function Youtube() {
 		});
 	}, []);
 	const handleClick = (index) => {
-		setOpen(true);
+		pop.current.open();
 		setIndex(index);
 	};
 	// 제목 80자넘어갈시 말줄임표붙히기 본문은 250개 날짜 줄이기
@@ -50,14 +50,24 @@ function Youtube() {
 				})}
 			</Layout>
 			{/* 팝업 열리고 닫히고 */}
-			{open ? (
-				<Popup setOpen={setOpen}>
-					<iframe
-						//팝업이 호출될때 변경된 index순번의 vids state값의 데이터값이 팝업영상으로 출력
-						src={`https://www.youtube.com/embed/${vids[index].snippet.resourceId.videoId}`}
-						frameBorder='0'></iframe>
-				</Popup>
-			) : null}
+			{/* 컴포넌트에는 참조가 불가는 하지만 popup.js에서 뺴오기해서 가능 */}
+			<Popup ref={pop}>
+				{vids.length !== 0 ? (
+					<>
+						<iframe
+							//팝업이 호출될때 변경된 index순번의 vids state값의 데이터값이 팝업영상으로 출력
+							src={`https://www.youtube.com/embed/${vids[index].snippet.resourceId.videoId}`}
+							frameBorder='0'></iframe>
+						<span
+							className='close'
+							onClick={() => {
+								pop.current.close();
+							}}>
+							close
+						</span>
+					</>
+				) : null}
+			</Popup>
 		</>
 	);
 }

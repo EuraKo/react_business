@@ -1,19 +1,30 @@
-function popup(props) {
+import { forwardRef, useState, useImperativeHandle } from 'react';
+
+// 1. 기존의 컴포넌트 함수를 대입형 함수(화살표함수)로 변경하고
+// 2. 해당 화살표 함수를 forwardRef()로 wrapping
+// 3. forwardRef에 두번쨰 인수로 ref추가
+const Popup = forwardRef((props, ref) => {
+	//4. 자신의 오픈 여부를 결정하는 state생성
+	const [open, setOpen] = useState(false);
+	// 해당 컴포넌트에서 만들어진 함수를 부모 컴포넌트에서 사용가능하도록 외부로 반환가능
+	useImperativeHandle(ref, () => {
+		return {
+			open: () => setOpen(true), //팝업여는 함수
+			close: () => setOpen(false), //팝업닫는 함수
+		};
+	});
+
 	console.log(props);
 	return (
-		<aside className='pop'>
-			<div className='con'>
-				{props.children}
-				<span
-					className='close'
-					onClick={() => {
-						props.setOpen(false);
-					}}>
-					close
-				</span>
-			</div>
-		</aside>
+		<>
+			{/* open 일 떄만 동작 삼항연산자처럼 null을 안써도된다. */}
+			{open && (
+				<aside className='pop'>
+					<div className='con'>{props.children}</div>
+				</aside>
+			)}
+		</>
 	);
-}
+});
 
-export default popup;
+export default Popup;
