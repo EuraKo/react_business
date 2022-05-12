@@ -4,4 +4,28 @@ figure {
 	background: #555;
 	overflow: hidden;
 	position: relative;
+	padding: 200px 0 100px;
+	.swiper {
+		height: 100%;
+		overflow: visible;
+		.swiper-slide {
+			width: 100%;
+			background: aqua;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 50px;
+			transform: scale(0.8);
+			transition: 1s;
+			opacity: 0.7;
+		}
+		.swiper-slide-active {
+			transform: scale(1);
+			opacity: 1;
+			box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.5);
+		}
+		.swiper-pagination {
+			bottom: -60px;
+		}
+	}
 }
