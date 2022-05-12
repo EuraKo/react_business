@@ -1,7 +1,7 @@
 function Vids() {
 	return (
 		<>
-			<section id='vids'></section>
+			<section id='vids' className='myScroll'></section>
 		</>
 	);
 }

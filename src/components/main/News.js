@@ -24,7 +24,7 @@ function News() {
 	}, []);
 
 	return (
-		<section id='news'>
+		<section id='news' className='myScroll'>
 			<h1>Recent News</h1>
 			{/* post 값 중에서 최근글 3개만 출력 */}
 			{posts.map((post, idx) => {

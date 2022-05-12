@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Visual() {
-	return <figure></figure>;
+	return <figure className='myScroll'></figure>;
 }
 
 export default Visual;
