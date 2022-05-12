@@ -3,10 +3,10 @@ function Btns(props) {
 	// 인수로 받은 숫자의 갯수만큼 iterable object 생성
 	// 이터러블 객체 - 반복가능 객체 (for of로만 반복처리가능)
 	const abc = Array(4).keys();
-	console.log(abc);
+	// console.log(abc);
 	// for (const a of abc) console.log(a);
 	const b = Array.from(abc);
-	console.log(b);
+	// console.log(b);
 	// ============================
 	const arr = Array.from(Array(props.num).keys());
 	return (
