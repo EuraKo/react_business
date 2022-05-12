@@ -124,7 +124,7 @@ function Join() {
 					<table border='1'>
 						<caption>회원가입 정보 입력</caption>
 						<tbody>
-							{/* user id */}
+							{/* user id =================*/}
 							<tr>
 								<th scope='row'>
 									<label htmlFor='userid'>userid</label>
