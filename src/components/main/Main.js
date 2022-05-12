@@ -17,19 +17,22 @@ function Main() {
 	const [num, setNum] = useState(0); //얘가 useEffect에서 쓰이므로 콘솔이 2개씩 찍힌다.처음값고 인입했을때값
 	const getPos = () => {
 		const secs = main.current.querySelectorAll('.myScroll');
+
 		pos.current = [];
 		for (const sec of secs) pos.current.push(sec.offsetTop);
 	};
-
 	const activation = () => {
 		const base = -200;
 		const scroll = window.scrollY;
 		const btns = main.current.querySelectorAll('.scroll_navi li');
+		const secs = main.current.querySelectorAll('.myScroll');
 
 		pos.current.map((pos, idx) => {
 			if (scroll >= pos + base) {
 				for (const btn of btns) btn.classList.remove('on');
+				for (const sec of secs) sec.classList.remove('on');
 				btns[idx].classList.add('on');
+				secs[idx].classList.add('on');
 			}
 		});
 	};
@@ -37,9 +40,10 @@ function Main() {
 	useEffect(() => {
 		const secs = main.current.querySelectorAll('.myScroll');
 		setNum(secs.length);
-		getPos(secs);
+		getPos();
 		// 윈도우는 js에서 생성되는 돔이 아니므로 그냥 받아온다.
-		window.addEventListener('resize', () => getPos(secs));
+		// removeEventListener는 선언적 함수만 적용된다. 익명함수를 써서 인수를 전달하면 안된다.
+		window.addEventListener('resize', getPos);
 		window.addEventListener('scroll', activation);
 		// cleanup 함수를 이용하여 다른 컴포넌트로 넘어가면 동작지우기
 		return () => {
