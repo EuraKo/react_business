@@ -14,7 +14,7 @@ function Gallery() {
 		const url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json`;
 
 		axios.get(url).then((json) => {
-			console.log(json.data.photos.photo);
+			// console.log(json.data.photos.photo);
 			setPics(json.data.photos.photo);
 		});
 	}, []);

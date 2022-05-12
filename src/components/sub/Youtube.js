@@ -16,7 +16,7 @@ function Youtube() {
 		const num = 10;
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playListId}&maxResult=${num}`;
 		axios.get(url).then((json) => {
-			console.log(json);
+			// console.log(json);
 			setVids(json.data.items);
 		});
 	}, []);

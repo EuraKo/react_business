@@ -4,12 +4,12 @@ import axios from 'axios';
 const path = process.env.PUBLIC_URL;
 
 function Department() {
-	console.log('department render');
+	// console.log('department render');
 	const [members, setMembers] = useState([]);
 
 	useEffect(() => {
 		axios.get(`${path}/DB/member.json`).then((json) => {
-			console.log(json.data.members);
+			// console.log(json.data.members);
 			setMembers(json.data.members);
 		});
 	}, []);

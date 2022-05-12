@@ -9,7 +9,7 @@ const student = {
 	age: 20,
 	[abc]: 'reading',
 };
-console.log(student);
+// console.log(student);
 // ========= 예시 끝 =========
 
 function Join() {
@@ -72,7 +72,7 @@ function Join() {
 		// setVal({...val, 'userid':value})
 		// 그냥 name을 쓰면 키값은 못가져오므로 []로 가져온다. 상단에 예시 있음
 		setVal({ ...val, [name]: value });
-		console.log(val);
+		// console.log(val);
 	};
 	const hadleRadio = (e) => {
 		const { name } = e.target;
@@ -91,7 +91,7 @@ function Join() {
 	const handleSelect = (e) => {
 		const { name } = e.target;
 		const isSelected = e.target.options[e.target.selectedIndex].value;
-		console.log(isSelected);
+		// console.log(isSelected);
 		setVal({ ...val, [name]: isSelected });
 	};
 	const hadleReset = () => {
@@ -104,11 +104,11 @@ function Join() {
 	};
 
 	useEffect(() => {
-		console.log(err);
+		// console.log(err);
 		const len = Object.keys(err).length; // 에러 객체의 키값만 담는다.
 		// len은 에러의 객체가 0개일때 < 이것만하면 처음 인입시 0개라 작동하므로
 		// isSUbmit을 이용하여 버튼클릭후 나오게 해준다
-		console.log(initVal);
+		// console.log(initVal);
 		if (len === 0 && isSubmit === true) {
 			// setSuccess(true);
 			// 모든 인증이 성공하면 메인페이지로 강제 이동

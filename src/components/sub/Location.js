@@ -6,7 +6,7 @@ const path = process.env.PUBLIC_URL;
 function Location(props) {
 	// window전역객체에서 kakao라는 이름으로 등록되어있는 객체를 비구조할당으로 직접 변수에 할당
 	const { kakao } = window;
-	console.log(window);
+	// console.log(window);
 	const container = useRef(null);
 	const branch = useRef(null);
 
@@ -48,7 +48,7 @@ function Location(props) {
 			center: mapInfo[index].latlng, // 지도의 중심좌표
 			level: 3, // 지도의 확대 레벨
 		};
-		console.log(container);
+		// console.log(container);
 
 		// container만 쓰면 dom을 가져오지 않아 .current를 불러와야함
 		const map_instance = new kakao.maps.Map(container.current, options);
@@ -91,7 +91,7 @@ function Location(props) {
 		map_instance.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 		const mapInit = () => {
-			console.log('마커 중앙위치');
+			// console.log('마커 중앙위치');
 			map_instance.setCenter(mapInfo[index].latlng);
 		};
 
@@ -108,7 +108,7 @@ function Location(props) {
 
 	// setTraffic()
 	useEffect(() => {
-		console.log(traffic);
+		// console.log(traffic);
 		// 초기에 map이 null로 들어오기 때문에 먼저 있는지 판단을 해야한다.
 		if (map) {
 			traffic

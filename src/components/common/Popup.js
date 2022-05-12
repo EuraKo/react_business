@@ -8,7 +8,7 @@ const Popup = forwardRef((props, ref) => {
 	//4. 자신의 오픈 여부를 결정하는 state생성
 	const [open, setOpen] = useState(false);
 	// 해당 컴포넌트에서 만들어진 함수를 부모 컴포넌트에서 사용가능하도록 외부로 반환가능
-	console.log(ref);
+	// console.log(ref);
 	//해당 컴포넌트를 forwardRef로 감싸서
 	// useImperativeHandle함수로 state변경함수를 내보냄
 	useImperativeHandle(ref, () => {
@@ -18,7 +18,7 @@ const Popup = forwardRef((props, ref) => {
 		};
 	});
 
-	console.log(props);
+	// console.log(props);
 	return (
 		<>
 			{/* open 일 떄만 동작 삼항연산자처럼 null을 안써도된다. */}

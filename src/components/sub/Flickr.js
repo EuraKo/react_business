@@ -51,7 +51,7 @@ function Flickr() {
 			setItems(json.data.photos.photo);
 		});
 		// 2. await를 통해 데이터를 다불러온다음 실행
-		console.log('flickr데이터 호출끝! 화면출력 시작');
+		// console.log('flickr데이터 호출끝! 화면출력 시작');
 		setTimeout(() => {
 			frame.current.classList.add('on');
 			setLoading(false);
