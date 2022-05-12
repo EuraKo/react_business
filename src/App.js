@@ -23,7 +23,9 @@ function App() {
 		<>
 			<Switch>
 				<Route exact path='/' component={Main}></Route>
-				<Route path='/' component={() => <Header type={'sub'} />} />
+				{/* prop을 인수로 전달할때는 render로 전달해야한다 component는 페이지를 넘길때마다 재호출을 하기때문에 */}
+				{/* <Route path='/' component={() => <Header type={'sub'} />} /> */}
+				<Route path='/' render={() => <Header type={'sub'} />} />
 			</Switch>
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
