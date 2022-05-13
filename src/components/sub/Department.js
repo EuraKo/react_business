@@ -4,6 +4,7 @@ const path = process.env.PUBLIC_URL;
 
 function Department() {
 	const members = useSelector((store) => store.memberReducer.members);
+	console.log(members);
 
 	return (
 		<Layout name={'Department'}>

@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setYoutube } from './redux/action';
+import { setYoutube, setMembers } from './redux/action';
 
 import axios from 'axios';
 
@@ -23,6 +23,7 @@ import Flickr from './components/sub/Flickr';
 
 import './scss/style.scss';
 
+const path = process.env.PUBLIC_URL;
 function App() {
 	//루트 컴포넌트인 App에서 youtube data를 가져와서 전역 store에 저장하는 함수
 	const dispatch = useDispatch();
@@ -37,14 +38,20 @@ function App() {
 			// 액시오스로 받아온 데이터를 setYoutube함수로 action 객체를 반환하고
 			// 반환된 action객체를 dispatch로 reducer에 전달
 			const action = setYoutube(json.data.items);
-			console.log(action);
+			// console.log(action);
 			dispatch(action);
 		});
 	};
+	const fetchMembers = async () => {
+		const url = path + '/DB/member.json';
+		await axios.get(url).then((json) => {
+			dispatch(setMembers(json.data.members));
+		});
+	};
 
-	// 해당 컴포넌트가 마운드되면 store에 데이터 저장
 	useEffect(() => {
 		fetchYoutube();
+		fetchMembers();
 	}, []);
 
 	return (

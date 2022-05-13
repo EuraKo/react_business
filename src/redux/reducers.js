@@ -1,31 +1,6 @@
 import { combineReducers } from 'redux';
 
-const initMember = {
-	members: [
-		{
-			name: 'julia',
-			position: 'CEO',
-			pic: 'man1.jpg',
-		},
-		{
-			name: 'Paul',
-			position: 'Vice Pres',
-			pic: 'man2.jpg',
-		},
-		{
-			name: 'Emily',
-			position: 'Design',
-			pic: 'man3.jpg',
-		},
-		{
-			name: 'David',
-			position: 'Front-end Developer',
-			pic: 'man4.jpg',
-		},
-	],
-};
-
-const memberReducer = (state = initMember, action) => {
+const memberReducer = (state = { members: [] }, action) => {
 	switch (action.type) {
 		case 'SET_MEMBERS':
 			return { ...state, members: action.payload };
