@@ -3,6 +3,7 @@ import Visual from './Visual';
 import News from './News';
 import Pics from './Pics';
 import Vids from './Vids';
+import Member from './Member';
 import Btns from './Btns';
 
 import Anime from '../../class/anime';
@@ -79,6 +80,7 @@ function Main() {
 				<News />
 				<Pics scrolled={scrolled} start={pos.current[2]} />
 				<Vids />
+				<Member />
 				<Btns setIndex={setIndex} num={num} />
 			</main>
 		</>

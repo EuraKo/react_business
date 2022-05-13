@@ -1,6 +1,6 @@
 import Layout from '../common/Layout';
 import Popup from '../common/Popup';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 function Youtube() {

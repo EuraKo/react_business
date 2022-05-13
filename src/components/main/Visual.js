@@ -16,7 +16,7 @@ function Visual() {
 				pagination={true}
 				navigation={true}
 				centeredSlides={true}
-				garabCursor={true}
+				grabCursor={true}
 				modules={[Pagination, Navigation]}>
 				<SwiperSlide>Slide 1</SwiperSlide>
 				<SwiperSlide>Slide 2</SwiperSlide>
