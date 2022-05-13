@@ -9,7 +9,7 @@ function Member() {
 		<section id='member' className='myScroll'>
 			<h2>Recent Members</h2>
 			<ul>
-				{/* {memberData.map((member, idx) => {
+				{memberData.map((member, idx) => {
 					if (idx < 6) {
 						return (
 							<li key={idx}>
@@ -18,7 +18,7 @@ function Member() {
 							</li>
 						);
 					}
-				})} */}
+				})}
 			</ul>
 		</section>
 	);

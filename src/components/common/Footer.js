@@ -9,9 +9,9 @@ function Footer() {
 			<div className='inner'>
 				<p>2022 DCODELAB &copy; ALL RIGHTS RESERVED.</p>
 				<div className='members'>
-					{/* {members.map((member, idx) => (
+					{members.map((member, idx) => (
 						<img key={idx} src={`${path}/img/${member.pic}`} />
-					))} */}
+					))}
 				</div>
 			</div>
 		</footer>
