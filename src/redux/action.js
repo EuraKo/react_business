@@ -5,3 +5,10 @@ export const setMembers = (member) => {
 		payload: member, //수하물, 데이터
 	};
 };
+
+export const setYoutube = (data) => {
+	return {
+		type: 'SET_YOUTUBE',
+		payload: data,
+	};
+};

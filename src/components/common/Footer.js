@@ -3,7 +3,7 @@ const path = process.env.PUBLIC_URL;
 
 function Footer() {
 	const members = useSelector((store) => store.memberReducer.members);
-	console.log(members);
+	// console.log(members);
 	return (
 		<footer>
 			<div className='inner'>
