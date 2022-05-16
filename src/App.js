@@ -51,6 +51,7 @@ function App() {
 		dispatch({ type: 'FLICKR_START', opt: { type: 'interest', count: 100 } });
 		// 유투브 액션 객체 saga.js에 전달
 		dispatch({ type: 'YOUTUBE_START' });
+		dispatch({ type: 'MEMBERS_START' });
 		fetchMembers();
 		fetchGallery();
 	}, []);
