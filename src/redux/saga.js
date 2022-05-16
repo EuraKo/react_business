@@ -11,12 +11,13 @@ import { fetchFlickr } from './api';
 
 // 컴포넌트에서 받은 인수값을 api.js에 있는 엑시오스함수에 연결하는 함수
 export function* returnFlickr(action) {
-	const response = yield call(fetchFlickr, action.opt);
-	// console.log(response);
-	if (response) {
+	try {
+		const response = yield call(fetchFlickr, action.opt);
 		yield put({ type: 'FLICKR_SUCCESS', payload: response.data.photos.photo });
-	} else {
-		yield put({ type: 'FLICKR_ERROR', payload: '데이터호출에 실패헀습니다.' });
+	} catch (err) {
+		// 해당 api호출이 실패했을때 예외처리
+		// 에러 내용을 reducer에 전달
+		yield put({ type: 'FLICKR_ERROR', payload: err });
 	}
 }
 
