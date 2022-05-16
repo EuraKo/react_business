@@ -9,7 +9,15 @@ const memberReducer = (state = { members: [] }, action) => {
 			return state;
 	}
 };
+const flickrReducer = (state = { flickr: [] }, action) => {
+	switch (action.type) {
+		case 'SET_FLICKR':
+			return { ...state, flickr: action.payload };
 
+		default:
+			return state;
+	}
+};
 // reducer의 state인수값은 항상 객체가 들어와야한다 그래서 배열도 객체로 감싼다. youtube 경우 불특정한 객체가 들어와야하므로 빈배열로 넣어준다.
 const youtubeReducer = (state = { youtube: [] }, action) => {
 	switch (action.type) {
@@ -20,6 +28,7 @@ const youtubeReducer = (state = { youtube: [] }, action) => {
 			return state;
 	}
 };
+
 /* 
 만약 값이 안들어 왔을 경우 미리 값을 지정. 최신 문법임
 function plus(num1 = 1, num2 = 3) {
@@ -30,6 +39,7 @@ plus(); */
 const reducers = combineReducers({
 	memberReducer,
 	youtubeReducer,
+	flickrReducer,
 });
 
 export default reducers;

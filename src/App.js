@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setYoutube, setMembers } from './redux/action';
+import { setYoutube, setMembers, setFlickr } from './redux/action';
 
 import axios from 'axios';
 
@@ -24,9 +24,11 @@ import Flickr from './components/sub/Flickr';
 import './scss/style.scss';
 
 const path = process.env.PUBLIC_URL;
+
 function App() {
 	//루트 컴포넌트인 App에서 youtube data를 가져와서 전역 store에 저장하는 함수
 	const dispatch = useDispatch();
+	console.log(dispatch);
 
 	const fetchYoutube = async () => {
 		const playListId = 'PLlM8MQlXerevUPqRRrMpLJFOQRPtKP67s';
@@ -48,10 +50,21 @@ function App() {
 			dispatch(setMembers(json.data.members));
 		});
 	};
+	const fetchFlickr = async () => {
+		const key = '4612601b324a2fe5a1f5f7402bf8d87a';
+		const method_interest = 'flickr.interestingness.getList';
+		const num = 20;
+		const url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json`;
+
+		await axios.get(url).then((json) => {
+			dispatch(setFlickr(json.data.photos.photo));
+		});
+	};
 
 	useEffect(() => {
 		fetchYoutube();
 		fetchMembers();
+		fetchFlickr();
 	}, []);
 
 	return (

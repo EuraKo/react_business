@@ -3,7 +3,7 @@ const path = process.env.PUBLIC_URL;
 
 function Member() {
 	const memberData = useSelector((store) => store.memberReducer.members);
-	console.log(memberData);
+	// console.log(memberData);
 
 	return (
 		<section id='member' className='myScroll'>

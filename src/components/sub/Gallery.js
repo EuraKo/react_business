@@ -1,23 +1,13 @@
 import Layout from '../common/Layout';
 import Popup from '../common/Popup';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 function Gallery() {
-	const [pics, setPics] = useState([]);
-	const [open, setOpen] = useState(false);
 	const [index, setIndex] = useState(0);
-	useEffect(() => {
-		const method_interest = 'flickr.interestingness.getList';
-		const key = 'df93661d16064f006391d9d061379d39';
-		const num = 20;
-		const url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json`;
+	const pics = useSelector((store) => store.flickrReducer.flickr);
+	const pop = useRef(null);
 
-		axios.get(url).then((json) => {
-			// console.log(json.data.photos.photo);
-			setPics(json.data.photos.photo);
-		});
-	}, []);
 	return (
 		<>
 			<Layout name='Gallery'>
@@ -27,7 +17,7 @@ function Gallery() {
 							<li
 								key={idx}
 								onClick={() => {
-									setOpen(true);
+									pop.current.open();
 									setIndex(idx);
 								}}>
 								<div className='inner'>
@@ -51,14 +41,16 @@ function Gallery() {
 					})}
 				</ul>
 			</Layout>
-			{open ? (
-				<Popup setOpen={setOpen}>
+			{pics.length !== 0 && (
+				<Popup ref={pop}>
 					<img
 						src={`https://live.staticflickr.com/${pics[index].server}/${pics[index].id}_${pics[index].secret}_b.jpg`}
-						alt=''
 					/>
+					<span className='close' onClick={() => pop.current.close()}>
+						close
+					</span>
 				</Popup>
-			) : null}
+			)}
 			{/* {open && (
 				<Popup setOpen={setOpen}>
 					<img
