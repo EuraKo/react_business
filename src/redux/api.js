@@ -7,13 +7,14 @@ export const fetchFlickr = async (opt) => {
 	const method_search = 'flickr.photos.search';
 	const method_user = 'flickr.people.getPhotos';
 	let url = '';
-
+	// console.log(opt);
 	if (opt.type === 'interest') {
 		url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json`;
 	}
 
 	if (opt.type === 'search') {
-		url = `https://www.flickr.com/services/rest/?method=${method_search}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&tags=${opt.tags}`;
+		url = `https://www.flickr.com/services/rest/?method=${method_search}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&tags=${opt.tag}`;
+		console.log(opt.tag);
 	}
 	if (opt.type === 'user') {
 		url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&user_id=${opt.user}`;

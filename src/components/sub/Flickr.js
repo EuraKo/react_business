@@ -6,7 +6,7 @@ import Masonry from 'react-masonry-component';
 
 function Flickr() {
 	const { flickr } = useSelector((store) => store.flickrReducer);
-	const dispatch = dispatch();
+	const dispatch = useDispatch();
 	const path = process.env.PUBLIC_URL;
 	const frame = useRef(null);
 	const input = useRef(null);
@@ -32,7 +32,7 @@ function Flickr() {
 
 	const showSearch = (e) => {
 		const result = input.current.value.trim();
-
+		console.log(result);
 		// 입력된 결과값이 없으면 얼럿창
 		if (!result) return alert('입력하세요');
 		input.current.value = '';
@@ -45,6 +45,7 @@ function Flickr() {
 			// 검색 요청함수 호출 시
 			// axios함수에 전달이 되야하는 옵션객체를 setOpt로 state변경
 			// 해당 state가 변경될때마다 useEffect로 saga.js에 전달됨
+			console.log(result);
 			setOpt({
 				type: 'search',
 				count: 50,
