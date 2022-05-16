@@ -74,10 +74,15 @@ function Flickr() {
 							setEnableClick(false);
 							setLoading(true);
 							frame.current.classList.remove('on');
-							getFlickr({
+							setOpt({
 								type: 'interest',
 								count: 50,
 							});
+							endLoading();
+							// getFlickr({
+							// 	type: 'interest',
+							// 	count: 50,
+							// });
 						}
 					}}>
 					interest gallery
@@ -88,11 +93,12 @@ function Flickr() {
 							setEnableClick(false);
 							setLoading(true);
 							frame.current.classList.remove('on');
-							getFlickr({
+							setOpt({
 								type: 'search',
 								count: 50,
-								tags: 'glass building',
+								tag: 'glass building',
 							});
+							endLoading();
 						}
 					}}>
 					search gallery
