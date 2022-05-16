@@ -51,7 +51,6 @@ function Flickr() {
 				count: 50,
 				tag: result,
 			});
-			endLoading();
 		}
 	};
 
@@ -60,9 +59,15 @@ function Flickr() {
 		//액션객체로 변환되서 dispatch로 saga.js로 전달
 		dispatch({ type: 'FLICKR_START', opt });
 		//데이터 전달후 로딩처리하는 함수 호출
-		endLoading();
 	}, [opt]);
 
+	// 메이슨이 다 작동하지 않았는데 endLoading()이먼저실행되서 끝날떄 effect를 다시 잡는다.
+	// 기존의 endLoading함수를 api요청을 할때 실행하는게 아닌
+	// store를 통해 데이터호출이 완료될때마다 실행
+	// 이때 처음 flickr값은 빈 배열이 들어오니 그때만 조건문으로 실행되지 않도록 처리
+	useEffect(() => {
+		if (flickr.length !== 0) endLoading();
+	}, [flickr]);
 	return (
 		<>
 			<Layout name={'Flickr'} bg={`${path}/img/man1.jpg`}>
@@ -79,7 +84,7 @@ function Flickr() {
 								type: 'interest',
 								count: 50,
 							});
-							endLoading();
+
 							// getFlickr({
 							// 	type: 'interest',
 							// 	count: 50,
@@ -99,7 +104,6 @@ function Flickr() {
 								count: 50,
 								tag: 'glass building',
 							});
-							endLoading();
 						}
 					}}>
 					search gallery
@@ -162,7 +166,6 @@ function Flickr() {
 															count: 50,
 															user: e.currentTarget.innerText,
 														});
-														endLoading();
 													}
 												}}>
 												{item.owner}
