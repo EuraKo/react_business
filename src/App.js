@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setMembers, setGallery } from './redux/action';
+import { setGallery } from './redux/action';
 
 import axios from 'axios';
 
@@ -29,12 +29,6 @@ function App() {
 	//루트 컴포넌트인 App에서 youtube data를 가져와서 전역 store에 저장하는 함수
 	const dispatch = useDispatch();
 
-	const fetchMembers = async () => {
-		const url = path + '/DB/member.json';
-		await axios.get(url).then((json) => {
-			dispatch(setMembers(json.data.members));
-		});
-	};
 	const fetchGallery = async () => {
 		const key = '4612601b324a2fe5a1f5f7402bf8d87a';
 		const method_interest = 'flickr.interestingness.getList';
@@ -52,7 +46,6 @@ function App() {
 		// 유투브 액션 객체 saga.js에 전달
 		dispatch({ type: 'YOUTUBE_START' });
 		dispatch({ type: 'MEMBERS_START' });
-		fetchMembers();
 		fetchGallery();
 	}, []);
 
