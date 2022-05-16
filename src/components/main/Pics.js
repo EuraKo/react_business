@@ -11,7 +11,7 @@ function Pics(props) {
 	const base = 300;
 	const position = scrolled - start + base;
 
-	const pics = useSelector((store) => store.galleryReducer.gallery);
+	const pics = useSelector((store) => store.flickrReducer.flickr);
 	const [index, setIndex] = useState(0);
 	const pop = useRef(null);
 
@@ -66,7 +66,7 @@ function Pics(props) {
 							src={`https://live.staticflickr.com/${pics[index].server}/${pics[index].id}_${pics[index].secret}_b.jpg`}
 							alt=''
 						/>
-						<span className='close' onClick={pop.current.close()}>
+						<span className='close' onClick={() => pop.current.close()}>
 							close
 						</span>
 					</>

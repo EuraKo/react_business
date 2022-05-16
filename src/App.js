@@ -28,7 +28,6 @@ const path = process.env.PUBLIC_URL;
 function App() {
 	//루트 컴포넌트인 App에서 youtube data를 가져와서 전역 store에 저장하는 함수
 	const dispatch = useDispatch();
-	console.log(dispatch);
 
 	const fetchYoutube = async () => {
 		const playListId = 'PLlM8MQlXerevUPqRRrMpLJFOQRPtKP67s';
@@ -62,6 +61,8 @@ function App() {
 	};
 
 	useEffect(() => {
+		// App에서 옵션객체를 전달해서 초기 flickr데이터 store전달
+		dispatch({ type: 'FLICKR_START', opt: { type: 'interest', count: 100 } });
 		fetchYoutube();
 		fetchMembers();
 		fetchGallery();
