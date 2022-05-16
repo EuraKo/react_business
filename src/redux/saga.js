@@ -1,5 +1,5 @@
 import { takeLatest, all, put, fork, call } from 'redux-saga/effects';
-import { fetchFlickr } from './api';
+import { fetchFlickr, fetchYoutube } from './api';
 
 /* 
  takeLatest : 데이터 변경(action) 요청이 여러번 들어오면 제일 최근 요청 하나만 실행(takeEvery: 들어오는 요청 모두 처리)
@@ -10,6 +10,7 @@ import { fetchFlickr } from './api';
 */
 
 // 컴포넌트에서 받은 인수값을 api.js에 있는 엑시오스함수에 연결하는 함수
+// flickr 관련 action 생성함수
 export function* returnFlickr(action) {
 	try {
 		const response = yield call(fetchFlickr, action.opt);
@@ -26,7 +27,21 @@ export function* callFlickr() {
 	yield takeLatest('FLICKR_START', returnFlickr);
 }
 
+// youtube 관련 action 생성함수
+export function* returnYoutube(action) {
+	try {
+		const response = yield call(fetchYoutube);
+		yield put({ type: 'YOUTUBE_SUCCESS', payload: response.data.items });
+	} catch (err) {
+		yield put({ type: 'YOUTUBE_ERROR', payload: err });
+	}
+}
+
+export function* callYoutube() {
+	yield takeLatest('YOUTUBE_START', returnYoutube);
+}
+
 // reducer에 적용될 rootSaga 생성함수
 export default function* rootSaga() {
-	yield all([fork(callFlickr)]);
+	yield all([fork(callFlickr), fork(callYoutube)]);
 }

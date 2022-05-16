@@ -22,3 +22,11 @@ export const fetchFlickr = async (opt) => {
 	// 해당 axios로 받아온 결과값을 saga.js에서 데이터를 가공하거나 분기처리 할 예정이므로 axios로 받아온 결과값만 리턴
 	return await axios.get(url);
 };
+export const fetchYoutube = async () => {
+	const playListId = 'PLlM8MQlXerevUPqRRrMpLJFOQRPtKP67s';
+	const key = 'AIzaSyBmkrTuDWtAo4Y49kWA9tJVe6DvS6usIkA';
+	const num = 10;
+	const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playListId}&maxResult=${num}`;
+
+	return await axios.get(url);
+};

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 function Youtube() {
 	// store에서 youtubeReducer 데이터를 가져옴 (빈배열만 가져오므로 App.js에서 axios와 disfetch를 사용해서 데이터를 가져옴)
 	const vidData = useSelector((store) => store.youtubeReducer.youtube);
-
+	console.log(vidData);
 	const pop = useRef(null);
 	const [index, setIndex] = useState(0);
 

@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setYoutube, setMembers, setGallery } from './redux/action';
+import { setMembers, setGallery } from './redux/action';
 
 import axios from 'axios';
 
@@ -29,20 +29,6 @@ function App() {
 	//루트 컴포넌트인 App에서 youtube data를 가져와서 전역 store에 저장하는 함수
 	const dispatch = useDispatch();
 
-	const fetchYoutube = async () => {
-		const playListId = 'PLlM8MQlXerevUPqRRrMpLJFOQRPtKP67s';
-		const key = 'AIzaSyBmkrTuDWtAo4Y49kWA9tJVe6DvS6usIkA';
-		const num = 10;
-		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playListId}&maxResult=${num}`;
-
-		await axios.get(url).then((json) => {
-			// 액시오스로 받아온 데이터를 setYoutube함수로 action 객체를 반환하고
-			// 반환된 action객체를 dispatch로 reducer에 전달
-			const action = setYoutube(json.data.items);
-			// console.log(action);
-			dispatch(action);
-		});
-	};
 	const fetchMembers = async () => {
 		const url = path + '/DB/member.json';
 		await axios.get(url).then((json) => {
@@ -63,7 +49,8 @@ function App() {
 	useEffect(() => {
 		// App에서 옵션객체를 전달해서 초기 flickr데이터 store전달
 		dispatch({ type: 'FLICKR_START', opt: { type: 'interest', count: 100 } });
-		fetchYoutube();
+		// 유투브 액션 객체 saga.js에 전달
+		dispatch({ type: 'YOUTUBE_START' });
 		fetchMembers();
 		fetchGallery();
 	}, []);

@@ -13,9 +13,12 @@ const memberReducer = (state = { members: [] }, action) => {
 // reducer의 state인수값은 항상 객체가 들어와야한다 그래서 배열도 객체로 감싼다. youtube 경우 불특정한 객체가 들어와야하므로 빈배열로 넣어준다.
 const youtubeReducer = (state = { youtube: [] }, action) => {
 	switch (action.type) {
-		case 'SET_YOUTUBE':
+		case 'YOUTUBE_START':
+			return { ...state };
+		case 'YOUTUBE_SUCCESS':
 			return { ...state, youtube: action.payload };
-
+		case 'YOUTUBE_ERROR':
+			return { ...state, error: action.payload };
 		default:
 			return state;
 	}
@@ -29,6 +32,7 @@ const galleryReducer = (state = { gallery: [] }, action) => {
 			return state;
 	}
 };
+
 const flickrReducer = (state = { flickr: [] }, action) => {
 	switch (action.type) {
 		case 'FLICKR_START':
