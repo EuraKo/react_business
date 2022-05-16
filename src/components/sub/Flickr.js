@@ -3,7 +3,6 @@ import Popup from '../common/Popup';
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Masonry from 'react-masonry-component';
-import { faCommentDollar } from '@fortawesome/free-solid-svg-icons';
 
 function Flickr() {
 	const path = process.env.PUBLIC_URL;
