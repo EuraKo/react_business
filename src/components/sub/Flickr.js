@@ -131,14 +131,14 @@ function Flickr() {
 												pop.current.open();
 											}}>
 											<img
-												src={`https://live.staticflickr.com/${flickr.server}/${flickr.id}_${flickr.secret}_m.jpg`}
+												src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
 												alt=''
 											/>
 										</div>
-										<h2>{flickr.title}</h2>
+										<h2>{item.title}</h2>
 										<div className='profile'>
 											<img
-												src={`http://farm${flickr.farm}.staticflickr.com/${flickr.server}/buddyicons/${flickr.owner}.jpg`}
+												src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
 												alt=''
 												onError={(e) => {
 													e.target.setAttribute(
