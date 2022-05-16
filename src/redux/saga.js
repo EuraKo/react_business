@@ -13,7 +13,11 @@ import { fetchFlickr } from './api';
 export function* returnFlickr(action) {
 	const response = yield call(fetchFlickr, action.opt);
 	// console.log(response);
-	yield put({ type: 'FLICKR_SUCCESS', payload: response.data.photos.photo });
+	if (response) {
+		yield put({ type: 'FLICKR_SUCCESS', payload: response.data.photos.photo });
+	} else {
+		yield put({ type: 'FLICKR_ERROR', payload: '데이터호출에 실패헀습니다.' });
+	}
 }
 
 // 요청 받은 액션 타입에 따라 함수 호출

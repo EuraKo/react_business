@@ -14,7 +14,6 @@ export const fetchFlickr = async (opt) => {
 
 	if (opt.type === 'search') {
 		url = `https://www.flickr.com/services/rest/?method=${method_search}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&tags=${opt.tag}`;
-		console.log(opt.tag);
 	}
 	if (opt.type === 'user') {
 		url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&user_id=${opt.user}`;
