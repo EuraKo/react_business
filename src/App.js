@@ -1,9 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setGallery } from './redux/action';
-
-import axios from 'axios';
+import * as types from './redux/actionType';
 
 // common
 import Header from './components/common/Header';
@@ -15,7 +13,6 @@ import Main from './components/main/Main';
 //sub
 import Department from './components/sub/Department';
 import Community from './components/sub/Community';
-import Gallery from './components/sub/Gallery';
 import Youtube from './components/sub/Youtube';
 import Location from './components/sub/Location';
 import Join from './components/sub/Join';
@@ -23,30 +20,19 @@ import Flickr from './components/sub/Flickr';
 
 import './scss/style.scss';
 
-const path = process.env.PUBLIC_URL;
-
 function App() {
 	//루트 컴포넌트인 App에서 youtube data를 가져와서 전역 store에 저장하는 함수
 	const dispatch = useDispatch();
 
-	const fetchGallery = async () => {
-		const key = '4612601b324a2fe5a1f5f7402bf8d87a';
-		const method_interest = 'flickr.interestingness.getList';
-		const num = 20;
-		const url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json`;
-
-		await axios.get(url).then((json) => {
-			dispatch(setGallery(json.data.photos.photo));
-		});
-	};
-
 	useEffect(() => {
 		// App에서 옵션객체를 전달해서 초기 flickr데이터 store전달
-		dispatch({ type: 'FLICKR_START', opt: { type: 'interest', count: 100 } });
+		dispatch({
+			type: types.FLICKR.start,
+			opt: { type: 'interest', count: 100 },
+		});
 		// 유투브 액션 객체 saga.js에 전달
-		dispatch({ type: 'YOUTUBE_START' });
-		dispatch({ type: 'MEMBERS_START' });
-		fetchGallery();
+		dispatch({ type: types.YOUTUBE.start });
+		dispatch({ type: types.MEMBERS.start });
 	}, []);
 
 	return (
@@ -59,7 +45,6 @@ function App() {
 			</Switch>
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
-			<Route path='/gallery' component={Gallery} />
 			<Route path='/Flickr' component={Flickr}></Route>
 			<Route path='/youtube' component={Youtube} />
 			<Route path='/location' component={Location} />

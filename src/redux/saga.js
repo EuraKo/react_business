@@ -1,5 +1,6 @@
 import { takeLatest, all, put, fork, call } from 'redux-saga/effects';
 import { fetchFlickr, fetchYoutube, fetchMembers } from './api';
+import * as types from './actionType';
 
 /* 
  takeLatest : 데이터 변경(action) 요청이 여러번 들어오면 제일 최근 요청 하나만 실행(takeEvery: 들어오는 요청 모두 처리)
@@ -14,44 +15,47 @@ import { fetchFlickr, fetchYoutube, fetchMembers } from './api';
 export function* returnFlickr(action) {
 	try {
 		const response = yield call(fetchFlickr, action.opt);
-		yield put({ type: 'FLICKR_SUCCESS', payload: response.data.photos.photo });
+		yield put({
+			type: types.FLICKR.success,
+			payload: response.data.photos.photo,
+		});
 	} catch (err) {
 		// 해당 api호출이 실패했을때 예외처리
 		// 에러 내용을 reducer에 전달
-		yield put({ type: 'FLICKR_ERROR', payload: err });
+		yield put({ type: types.FLICKR.error, payload: err });
 	}
 }
 
 // 요청 받은 액션 타입에 따라 함수 호출
 export function* callFlickr() {
-	yield takeLatest('FLICKR_START', returnFlickr);
+	yield takeLatest(types.FLICKR.start, returnFlickr);
 }
 
 // youtube 관련 action 생성함수
 export function* returnYoutube(action) {
 	try {
 		const response = yield call(fetchYoutube);
-		yield put({ type: 'YOUTUBE_SUCCESS', payload: response.data.items });
+		yield put({ type: types.YOUTUBE.success, payload: response.data.items });
 	} catch (err) {
-		yield put({ type: 'YOUTUBE_ERROR', payload: err });
+		yield put({ type: types.YOUTUBE.error, payload: err });
 	}
 }
 
 export function* callYoutube() {
-	yield takeLatest('YOUTUBE_START', returnYoutube);
+	yield takeLatest(types.YOUTUBE.start, returnYoutube);
 }
 // member 관련 action 생성함수
 export function* returnMembers(action) {
 	try {
 		const response = yield call(fetchMembers);
-		yield put({ type: 'MEMBERS_SUCCESS', payload: response.data.members });
+		yield put({ type: types.MEMBERS.success, payload: response.data.members });
 	} catch (err) {
-		yield put({ type: 'MEMBERS_ERROR', payload: err });
+		yield put({ type: types.MEMBERS.error, payload: err });
 	}
 }
 
 export function* callMembers() {
-	yield takeLatest('MEMBERS_START', returnMembers);
+	yield takeLatest(types.MEMBERS.start, returnMembers);
 }
 // reducer에 적용될 rootSaga 생성함수
 export default function* rootSaga() {

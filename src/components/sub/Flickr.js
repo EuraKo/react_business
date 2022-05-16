@@ -3,6 +3,7 @@ import Popup from '../common/Popup';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Masonry from 'react-masonry-component';
+import * as types from '../../redux/actionType';
 
 function Flickr() {
 	const { flickr } = useSelector((store) => store.flickrReducer);
@@ -57,7 +58,7 @@ function Flickr() {
 	useEffect(() => {
 		//의존성 배열을 opt로 해서 추후 setOpt를 통해서 axios로 전달되야 되는 옵션객체값이 변경될때마다
 		//액션객체로 변환되서 dispatch로 saga.js로 전달
-		dispatch({ type: 'FLICKR_START', opt });
+		dispatch({ type: types.FLICKR.start, opt });
 		//데이터 전달후 로딩처리하는 함수 호출
 	}, [opt]);
 
