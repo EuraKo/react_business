@@ -11,7 +11,7 @@ function Pics(props) {
 	const base = 300;
 	const position = scrolled - start + base;
 
-	const pics = useSelector((store) => store.flickrReducer.flickr);
+	const pics = useSelector((store) => store.galleryReducer.gallery);
 	const [index, setIndex] = useState(0);
 	const pop = useRef(null);
 

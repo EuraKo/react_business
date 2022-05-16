@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 function Gallery() {
 	const [index, setIndex] = useState(0);
-	const pics = useSelector((store) => store.flickrReducer.flickr);
+	const pics = useSelector((store) => store.galleryReducer.gallery);
 	const pop = useRef(null);
 
 	return (
