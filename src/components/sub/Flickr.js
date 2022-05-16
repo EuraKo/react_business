@@ -1,15 +1,18 @@
 import Layout from '../common/Layout';
 import Popup from '../common/Popup';
 import { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import Masonry from 'react-masonry-component';
 
 function Flickr() {
+	const { flickr } = useSelector((store) => store.flickrReducer);
+	const dispatch = dispatch();
 	const path = process.env.PUBLIC_URL;
 	const frame = useRef(null);
 	const input = useRef(null);
 	const pop = useRef(null);
-	const [items, setItems] = useState([]);
+	// saga로 전달해서 api에 있는 axios함수에 인수로 전달할 객체가 담길 state생성
+	const [opt, setOpt] = useState({ type: 'interest', count: 100 });
 	const [loading, setLoading] = useState(true);
 	const [index, setIndex] = useState(0);
 	const [enableClick, setEnableClick] = useState(true);
@@ -18,45 +21,15 @@ function Flickr() {
 		transitionDuration: '0.5s',
 	};
 
-	// wrapping 함수에 async키워드 추가
-	const getFlickr = async (opt) => {
-		const key = 'df93661d16064f006391d9d061379d39';
-		const num = opt.count;
-		const method_interest = 'flickr.interestingness.getList';
-		const method_search = 'flickr.photos.search';
-		const method_user = 'flickr.people.getPhotos';
-		let url = '';
-
-		// 인수로 받은 객체의 타입이 interest먄 interest url반환
-		if (opt.type === 'interest') {
-			url = `https://www.flickr.com/services/rest/?method=${method_interest}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json`;
-		}
-
-		// 인수로 받은 객체의 타입이 search이면 tags값을 받아서 검색어의 데이터를 불러오는 url 반환
-		if (opt.type === 'search') {
-			url = `https://www.flickr.com/services/rest/?method=${method_search}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&tags=${opt.tags}`;
-		}
-		if (opt.type === 'user') {
-			url = `https://www.flickr.com/services/rest/?method=${method_user}&per_page=${num}&api_key=${key}&nojsoncallback=1&format=json&user_id=${opt.user}`;
-		}
-
-		// 1. async await를 사용해서 데이터를 먼저불러오도록 처리
-		await axios.get(url).then((json) => {
-			if (json.data.photos.photo.length === 0) {
-				alert('해당 검색어에 이미지가 없습니다.');
-				return;
-			}
-			// console.log(json.data.photos.photo);
-			setItems(json.data.photos.photo);
-		});
-		// 2. await를 통해 데이터를 다불러온다음 실행
-		// console.log('flickr데이터 호출끝! 화면출력 시작');
+	// 데이터 호출 후 로딩 처리할 함수 따로 분리
+	const endLoading = () => {
 		setTimeout(() => {
 			frame.current.classList.add('on');
 			setLoading(false);
 			setEnableClick(true);
 		}, 1000);
 	};
+
 	const showSearch = (e) => {
 		const result = input.current.value.trim();
 
@@ -69,29 +42,25 @@ function Flickr() {
 			setLoading(true);
 			frame.current.classList.remove('on');
 
-			getFlickr({
+			// 검색 요청함수 호출 시
+			// axios함수에 전달이 되야하는 옵션객체를 setOpt로 state변경
+			// 해당 state가 변경될때마다 useEffect로 saga.js에 전달됨
+			setOpt({
 				type: 'search',
 				count: 50,
-				tags: result,
+				tag: result,
 			});
+			endLoading();
 		}
 	};
+
 	useEffect(() => {
-		getFlickr({
-			type: 'user',
-			user: '195406071@N05',
-			count: 50,
-		});
-		// getFlickr({
-		// 	type: 'interest',
-		// 	count: 50,
-		// });
-		/*  	getFlickr({
-				type: 'search',
-				count: 500,
-        tags:'ocean'
-			}); */
-	}, []);
+		//의존성 배열을 opt로 해서 추후 setOpt를 통해서 axios로 전달되야 되는 옵션객체값이 변경될때마다
+		//액션객체로 변환되서 dispatch로 saga.js로 전달
+		dispatch({ type: 'FLICKR_START', opt });
+		//데이터 전달후 로딩처리하는 함수 호출
+		endLoading();
+	}, [opt]);
 
 	return (
 		<>
@@ -145,7 +114,7 @@ function Flickr() {
 				<div className='frame' ref={frame}>
 					<div className='searchBox'></div>
 					<Masonry elementType={'div'} options={masonryOptions}>
-						{items.map((item, idx) => {
+						{flickr.map((item, idx) => {
 							return (
 								<article key={idx}>
 									<div className='inner'>
@@ -156,14 +125,14 @@ function Flickr() {
 												pop.current.open();
 											}}>
 											<img
-												src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
+												src={`https://live.staticflickr.com/${flickr.server}/${flickr.id}_${flickr.secret}_m.jpg`}
 												alt=''
 											/>
 										</div>
-										<h2>{item.title}</h2>
+										<h2>{flickr.title}</h2>
 										<div className='profile'>
 											<img
-												src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+												src={`http://farm${flickr.farm}.staticflickr.com/${flickr.server}/buddyicons/${flickr.owner}.jpg`}
 												alt=''
 												onError={(e) => {
 													e.target.setAttribute(
@@ -178,11 +147,15 @@ function Flickr() {
 														setEnableClick(false);
 														setLoading(true);
 														frame.current.classList.remove('on');
-														getFlickr({
+														// user 버튼 클릭 시
+														// axios함수에 전달이 되야하는 옵션객체를 setOpt로 state변경
+														// 해당 state가 변경될때마다 useEffect로 saga.js에 전달됨
+														setOpt({
 															type: 'user',
-															count: 10,
+															count: 50,
 															user: e.currentTarget.innerText,
 														});
+														endLoading();
 													}
 												}}>
 												{item.owner}
@@ -196,10 +169,10 @@ function Flickr() {
 				</div>
 			</Layout>
 			<Popup ref={pop}>
-				{items.length !== 0 ? (
+				{flickr.length !== 0 ? (
 					<>
 						<img
-							src={`https://live.staticflickr.com/${items[index].server}/${items[index].id}_${items[index].secret}_b.jpg`}
+							src={`https://live.staticflickr.com/${flickr[index].server}/${flickr[index].id}_${flickr[index].secret}_b.jpg`}
 							alt=''
 						/>
 						<span className='close' onClick={() => pop.current.close()}>
