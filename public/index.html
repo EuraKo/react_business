@@ -55,7 +55,6 @@
       path + 'img/vid4.mp4',
       path + 'img/vid5.mp4',
     ];
-    let loadedImg = false;
     const lenImg = imgs.length;
     const lenVid = vids.length;
     const defaults = document.querySelector('.default');
@@ -98,8 +97,7 @@
           img.onload = () => {
             countImg++;
             if (lenImg === countImg) {
-              loadedImg = true;
-              res(loadedImg);
+              res(true);
             }
           }
         })
