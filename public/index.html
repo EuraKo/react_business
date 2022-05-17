@@ -38,22 +38,52 @@
 
   <script>
     const imgs = [
-      'http://localhost:3000/img/pic1.jpg',
-      'http://localhost:3000/img/pic2.jpg',
-      'http://localhost:3000/img/pic3.jpg',
-      'http://localhost:3000/img/pic4.jpg',
-      'http://localhost:3000/img/pic5.jpg',
-      'http://localhost:3000/img/pic6.jpg',
+      'https://eurako.github.io/react_business/img/pic1.jpg',
+      'https://eurako.github.io/react_business/img/pic2.jpg',
+      'https://eurako.github.io/react_business/img/pic3.jpg',
+      'https://eurako.github.io/react_business/img/pic4.jpg',
+      'https://eurako.github.io/react_business/img/pic5.jpg',
+      'https://eurako.github.io/react_business/img/pic6.jpg',
+    ];
+
+    const vids = [
+      'https://eurako.github.io/react_business/img/vid1.mp4',
+      'https://eurako.github.io/react_business/img/vid2.mp4',
+      'https://eurako.github.io/react_business/img/vid3.mp4',
+      'https://eurako.github.io/react_business/img/vid4.mp4',
+      'https://eurako.github.io/react_business/img/vid5.mp4',
     ];
     let loadedImg = false;
     const lenImg = imgs.length;
+    const lenVid = vids.length;
+
     const defaults = document.querySelector('.default');
     const mask = document.querySelector('.mask');
     tags = '';
 
+    //먼저 배열로부터 img돔을 만들고
+    createDOM();
+    //img의 소스이미지가 모두 로딩완료되면 then구문이 동기적으로 실행
+    // 동적으로 만들어진 img,vid 돔의 이미지, 영상소스가 모두 로딩완료되면서 
+    // 두함수 모두 promise객체를 리턴하면 동기적으로 then구문실행
+    Promise.all([loadImg(), loadVid()]).then((result) => {
+      console.log(result);
+
+      if (result) {
+        mask.classList.add('off');
+
+        setTimeout(() => {
+          mask.remove();
+        }, 2000);
+      }
+    });
+
     function createDOM() {
       imgs.forEach(src => {
         tags += `<img src=${src} />`
+      })
+      vids.forEach(src => {
+        tags += `<video src=${src}></video>`;
       })
       defaults.innerHTML = tags;
     }
@@ -75,20 +105,22 @@
       })
     }
 
-    //먼저 배열로부터 img돔을 만들고
-    createDOM();
-    //img의 소스이미지가 모두 로딩완료되면 then구문이 동기적으로 실행
-    loadImg().then((result) => {
-      console.log(result);
 
-      if (result) {
-        mask.classList.add('off');
+    function loadVid() {
+      return new Promise((res, rej) => {
+        const vidDOM = defaults.querySelectorAll('video');
+        let countVid = 0;
+        vidDOM.forEach((vid) => {
+          vid.loadeddata = () => {
+            countVid++;
+            if (countVid === lenVid) {
+              res(true);
+            }
+          }
+        })
+      })
+    }
 
-        setTimeout(() => {
-          mask.remove();
-        }, 2000);
-      }
-    });
   </script>
 
 </body>
