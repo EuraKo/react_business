@@ -22,7 +22,10 @@ export function* returnFlickr(action) {
 	} catch (err) {
 		// 해당 api호출이 실패했을때 예외처리
 		// 에러 내용을 reducer에 전달
-		yield put({ type: types.FLICKR.error, payload: err });
+		yield put({
+			type: types.FLICKR.error,
+			payload: err,
+		});
 	}
 }
 
