@@ -37,26 +37,27 @@
   <div class="mask">Loading...</div>
 
   <script>
+    const path = 'https://eurako.github.io/react_business/';
+    // const path = 'http://localhost:3000/';
     const imgs = [
-      'https://eurako.github.io/react_business/img/pic1.jpg',
-      'https://eurako.github.io/react_business/img/pic2.jpg',
-      'https://eurako.github.io/react_business/img/pic3.jpg',
-      'https://eurako.github.io/react_business/img/pic4.jpg',
-      'https://eurako.github.io/react_business/img/pic5.jpg',
-      'https://eurako.github.io/react_business/img/pic6.jpg',
+      path + 'img/pic1.jpg',
+      path + 'img/pic2.jpg',
+      path + 'img/pic3.jpg',
+      path + 'img/pic4.jpg',
+      path + 'img/pic5.jpg',
+      path + 'img/pic6.jpg',
     ];
 
     const vids = [
-      'https://eurako.github.io/react_business/img/vid1.mp4',
-      'https://eurako.github.io/react_business/img/vid2.mp4',
-      'https://eurako.github.io/react_business/img/vid3.mp4',
-      'https://eurako.github.io/react_business/img/vid4.mp4',
-      'https://eurako.github.io/react_business/img/vid5.mp4',
+      path + 'img/vid1.mp4',
+      path + 'img/vid2.mp4',
+      path + 'img/vid3.mp4',
+      path + 'img/vid4.mp4',
+      path + 'img/vid5.mp4',
     ];
     let loadedImg = false;
     const lenImg = imgs.length;
     const lenVid = vids.length;
-
     const defaults = document.querySelector('.default');
     const mask = document.querySelector('.mask');
     tags = '';
@@ -71,7 +72,6 @@
 
       if (result) {
         mask.classList.add('off');
-
         setTimeout(() => {
           mask.remove();
         }, 2000);
@@ -110,8 +110,9 @@
       return new Promise((res, rej) => {
         const vidDOM = defaults.querySelectorAll('video');
         let countVid = 0;
+
         vidDOM.forEach((vid) => {
-          vid.loadeddata = () => {
+          vid.onloadeddata = () => {
             countVid++;
             if (countVid === lenVid) {
               res(true);
