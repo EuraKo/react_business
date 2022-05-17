@@ -117,7 +117,7 @@ function Join() {
 	}, [err]);
 
 	return (
-		<Layout name='Join'>
+		<Layout name='Join' img={'pic5.jpg'}>
 			<form onSubmit={handelSubmit}>
 				<fieldset>
 					<legend>회원가입 폼양식</legend>

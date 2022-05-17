@@ -118,7 +118,7 @@ function Location(props) {
 	}, [traffic]);
 
 	return (
-		<Layout name='Location'>
+		<Layout name='Location' img={'pic4.jpg'}>
 			<div id='map' ref={container}></div>
 			<span>토글 버튼 : </span>
 			<button onClick={() => setTraffic(!traffic)}>

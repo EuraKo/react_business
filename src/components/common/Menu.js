@@ -28,6 +28,7 @@ const Menu = forwardRef((props, ref) => {
 					exit={{ x: -200, opacity: 0 }}
 					onClick={() => {
 						setOpen(false);
+						props.setToggle(!props.toggle);
 					}}>
 					<h1>
 						<NavLink exact to='/'>
@@ -45,7 +46,7 @@ const Menu = forwardRef((props, ref) => {
 							<NavLink to='/Youtube'>Youtube</NavLink>
 						</li>
 						<li>
-							<NavLink to='/Gallery'>Gallery</NavLink>
+							<NavLink to='/Flickr'>Flickr</NavLink>
 						</li>
 						<li>
 							<NavLink to='/Location'>Location</NavLink>

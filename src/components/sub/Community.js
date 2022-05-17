@@ -109,7 +109,7 @@ function Community() {
 	}, [posts]);
 
 	return (
-		<Layout name='Community'>
+		<Layout name='Community' img={'pic1.jpg'}>
 			<div className='inputBox'>
 				<input type='text' placeholder='제목을 입력하세요' ref={input} />
 				<br />

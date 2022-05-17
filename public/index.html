@@ -7,11 +7,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=367839760b1e5b4be3e8653b20f01079"></script>
   <title>React App</title>
+  <style>
+    .default {
+      position: absolute;
+      top: -99999px;
+    }
+
+    .mask {
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      transition: opacity 2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 20px/1 'arial';
+      color: #fff;
+      background: #111;
+    }
+
+    .mask.off {
+      opacity: 0;
+    }
+  </style>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <div class="default"></div>
+  <div class="mask">loading...</div>
+  <script>
+    const imgs = [
+      'http://localhost:3000/react_business/img/pic1.jpg',
+      'http://localhost:3000/react_business/img/pic2.jpg',
+      'http://localhost:3000/react_business/img/pic3.jpg',
+      'http://localhost:3000/react_business/img/pic4.jpg',
+      'http://localhost:3000/react_business/img/pic5.jpg',
+      'http://localhost:3000/react_business/img/pic6.jpg',
+    ]
+    let loadedImg = false;
+    const lenImg = imgs.length;
+    const defaults = document.querySelector('.default');
+    const mask = document.querySelector('.mask');
+    tags = '';
+
+
+    function cerateDOM() {
+      imgs.forEach(src => {
+        tags += `<img src=${src}>`;
+      })
+      defaults.innerHTML = tags;
+    }
+
+    function loadImg() {
+      return new Promise((res, rej) => {
+        const imgDOM = defaults.querySelectorAll('img');
+        let countImg = 0;
+        imgDOM.forEach((img) => {
+          img.onload = () => {
+            countImg++;
+            if (lenImg === countImg) {
+              loadedImg = true;
+              res(loadedImg);
+            }
+          }
+        })
+      })
+    }
+
+    // 먼저 배열로부터 img 돔을 만들고
+    cerateDOM();
+    // img의 소스이미지가 모두 로딩완료되면 then구문이 동기적으로 실행
+    loadImg().then((result) => {
+      console.log(result);
+      if (result) {
+        mask.classList.add('off')
+        setTimeout(() => {
+          mask.remove();
+        }, 2000)
+      }
+    });
+  </script>
 </body>
 
 </html>
