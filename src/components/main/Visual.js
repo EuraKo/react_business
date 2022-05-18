@@ -8,19 +8,32 @@ import 'swiper/css/navigation';
 const path = process.env.PUBLIC_URL;
 
 function Visual() {
+	const frame = useRef(null);
 	const cursor = useRef(null);
+	let isCursor = false;
+
 	const mouseMove = (e) => {
-		cursor.current.style.left = e.clientX + 'px';
-		cursor.current.style.top = e.clientY + 'px';
+		if (isCursor) {
+			cursor.current.style.left = e.clientX + 'px';
+			cursor.current.style.top = e.clientY + 'px';
+		}
 	};
 
 	useEffect(() => {
+		frame.current.addEventListener('mouseenter', () => {
+			isCursor = true;
+			cursor.current.style.display = 'block';
+		});
+		frame.current.addEventListener('mouseleave', () => {
+			isCursor = false;
+			cursor.current.style.display = 'none';
+		});
 		window.addEventListener('mousemove', mouseMove);
 
 		return () => window.removeEventListener('mousemove', mouseMove);
 	}, []);
 	return (
-		<figure className='myScroll on'>
+		<figure className='myScroll on' ref={frame}>
 			<Swiper
 				spaceBetween={50}
 				loop={true}
