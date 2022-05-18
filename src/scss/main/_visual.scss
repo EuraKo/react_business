@@ -1,3 +1,6 @@
+* {
+	// cursor: none;
+}
 figure {
 	width: 100%;
 	height: 100vh;
@@ -28,4 +31,18 @@ figure {
 			bottom: -60px;
 		}
 	}
+}
+.cursor {
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	position: fixed;
+	border-radius: 50%;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	mix-blend-mode: difference;
+	transform: translate(-50%, -50%);
+	pointer-events: none; // 커스텀커서의 이벤트를 없애서 뒤에 요소가 클릭되게하는것
+	transition: transform 0.3s;
 }

@@ -1,13 +1,24 @@
-import React, { useRef, useState } from 'react';
-
+import { useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Pagination } from 'swiper';
-import { Navigation } from 'swiper';
 const path = process.env.PUBLIC_URL;
+
 function Visual() {
+	const cursor = useRef(null);
+	const mouseMove = (e) => {
+		cursor.current.style.left = e.clientX + 'px';
+		cursor.current.style.top = e.clientY + 'px';
+	};
+
+	useEffect(() => {
+		window.addEventListener('mousemove', mouseMove);
+
+		return () => window.removeEventListener('mousemove', mouseMove);
+	}, []);
 	return (
 		<figure className='myScroll on'>
 			<Swiper
@@ -19,22 +30,26 @@ function Visual() {
 				centeredSlides={true}
 				grabCursor={true}
 				modules={[Pagination, Navigation]}>
-				<SwiperSlide>
-					<video src={`${path}/img/vid1.mp4`} loop autoPlay muted></video>
-				</SwiperSlide>
-				<SwiperSlide>
-					<video src={`${path}/img/vid2.mp4`} loop autoPlay muted></video>
-				</SwiperSlide>
-				<SwiperSlide>
-					<video src={`${path}/img/vid3.mp4`} loop autoPlay muted></video>
-				</SwiperSlide>
-				<SwiperSlide>
-					<video src={`${path}/img/vid4.mp4`} loop autoPlay muted></video>
-				</SwiperSlide>
-				<SwiperSlide>
-					<video src={`${path}/img/vid5.mp4`} loop autoPlay muted></video>
-				</SwiperSlide>
+				{[0, 1, 2, 3, 4].map((num) => {
+					return (
+						<SwiperSlide
+							key={num}
+							onMouseEnter={() => {
+								cursor.current.style = 'transform:scale(8)';
+							}}
+							onMouseLeave={() => {
+								cursor.current.style = 'transform:scale(1)';
+							}}>
+							<video
+								src={`${path}/img/vid${num + 1}.mp4`}
+								loop
+								autoPlay
+								muted></video>
+						</SwiperSlide>
+					);
+				})}
 			</Swiper>
+			<div className='cursor' ref={cursor}></div>
 		</figure>
 	);
 }

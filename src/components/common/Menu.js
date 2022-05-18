@@ -1,10 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import {
-	useState,
-	forwardRef,
-	useImperactiveHandle,
-	useImperativeHandle,
-} from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Menu = forwardRef((props, ref) => {
